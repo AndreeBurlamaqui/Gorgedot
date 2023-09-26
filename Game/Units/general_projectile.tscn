@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://dp3sdqrfgrabq"]
+
+[ext_resource type="Script" path="res://Game/Units/ProjectileController.gd" id="1_iytox"]
+[ext_resource type="Texture2D" uid="uid://c2arf8nat7k75" path="res://Art/Items/weapon_arrow.png" id="1_x38mi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11g6q"]
+size = Vector2(11.42, 88.483)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lvm"]
+size = Vector2(20, 88)
+
+[node name="Projectile" type="Node2D" node_paths=PackedStringArray("timer", "hitBox", "impactBox")]
+scale = Vector2(1, 0.994539)
+script = ExtResource("1_iytox")
+timer = NodePath("Timer")
+hitBox = NodePath("HitBox")
+impactBox = NodePath("ImpactBox")
+speed = 750.0
+
+[node name="Visual" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_x38mi")
+
+[node name="ImpactBox" type="Area2D" parent="."]
+rotation = 1.5708
+collision_layer = 0
+collision_mask = 33
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ImpactBox"]
+scale = Vector2(0.977399, 0.953819)
+shape = SubResource("RectangleShape2D_11g6q")
+
+[node name="HitBox" type="Area2D" parent="."]
+modulate = Color(1, 0.117647, 0.419608, 1)
+rotation = 1.5708
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_l5lvm")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true

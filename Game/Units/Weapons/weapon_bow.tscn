@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxsio4wrr0w5c"]
+
+[ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_wcag2"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponBow.gd" id="2_5gpj6"]
+[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="3_8v3cc"]
+
+[node name="Bow" node_paths=PackedStringArray("weaponTip") instance=ExtResource("1_wcag2")]
+script = ExtResource("2_5gpj6")
+projectile = ExtResource("3_8v3cc")
+weaponTip = NodePath("Marker2D")
+
+[node name="Area2D" parent="." index="2"]
+position = Vector2(-1.33505, -3.90973)

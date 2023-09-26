@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3 uid="uid://cb4fxg1qk7i5g"]
+
+[ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_i1m5b"]
+[ext_resource type="Script" path="res://Game/Units/PlayerController.gd" id="2_4ayog"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_joqmt"]
+action = &"move_left"
+
+[sub_resource type="InputEventAction" id="InputEventAction_7sccu"]
+action = &"move_right"
+
+[sub_resource type="InputEventAction" id="InputEventAction_cq1dr"]
+action = &"move_up"
+
+[sub_resource type="InputEventAction" id="InputEventAction_d4m80"]
+action = &"move_down"
+
+[sub_resource type="InputEventAction" id="InputEventAction_baiut"]
+action = &"main_action"
+
+[node name="Player" instance=ExtResource("1_i1m5b")]
+scale = Vector2(1.00423, 1.00425)
+collision_layer = 4
+script = ExtResource("2_4ayog")
+leftInput = SubResource("InputEventAction_joqmt")
+rightInput = SubResource("InputEventAction_7sccu")
+upInput = SubResource("InputEventAction_cq1dr")
+downInput = SubResource("InputEventAction_d4m80")
+mainActionInput = SubResource("InputEventAction_baiut")

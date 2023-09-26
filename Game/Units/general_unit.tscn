@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://btuolqcayirgb"]
+
+[ext_resource type="Script" path="res://Game/Units/UnitController.gd" id="1_hrw8j"]
+[ext_resource type="Texture2D" uid="uid://dha3iy2myal3o" path="res://Art/Characters/green_character.png" id="1_wnd7u"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_nkdob"]
+action = &"move_left"
+
+[sub_resource type="InputEventAction" id="InputEventAction_3lvaj"]
+action = &"move_right"
+
+[sub_resource type="InputEventAction" id="InputEventAction_73vy1"]
+action = &"move_up"
+
+[sub_resource type="InputEventAction" id="InputEventAction_p0wty"]
+action = &"move_down"
+
+[sub_resource type="InputEventAction" id="InputEventAction_e1egr"]
+action = &"main_action"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3po0r"]
+radius = 44.1022
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hchhh"]
+radius = 38.2884
+
+[node name="Unit" type="CharacterBody2D"]
+scale = Vector2(0.998726, 1.00425)
+collision_layer = 5
+collision_mask = 16
+motion_mode = 1
+script = ExtResource("1_hrw8j")
+moveAcceleration = 4500.0
+moveFriction = 1500.0
+leftInput = SubResource("InputEventAction_nkdob")
+rightInput = SubResource("InputEventAction_3lvaj")
+upInput = SubResource("InputEventAction_73vy1")
+downInput = SubResource("InputEventAction_p0wty")
+mainActionInput = SubResource("InputEventAction_e1egr")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture = ExtResource("1_wnd7u")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3po0r")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hchhh")
+debug_color = Color(0.980392, 0, 0.380392, 0.419608)
