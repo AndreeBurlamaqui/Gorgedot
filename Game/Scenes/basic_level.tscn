@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6ysh7sy6ft3o"]
+[gd_scene load_steps=6 format=3 uid="uid://c6ysh7sy6ft3o"]
 
 [ext_resource type="Texture2D" uid="uid://b8q2xl5qc5142" path="res://Art/Environment/crate.png" id="2_uomle"]
 [ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/unit_player.tscn" id="3_sjj74"]
 [ext_resource type="PackedScene" uid="uid://bxsio4wrr0w5c" path="res://Game/Units/Weapons/weapon_bow.tscn" id="3_vlvf6"]
+[ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="4_gxqny"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxcuq"]
 size = Vector2(120, 120)
@@ -11,10 +12,12 @@ size = Vector2(120, 120)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(13, -1)
+zoom = Vector2(0.38, 0.38)
 editor_draw_drag_margin = true
 
 [node name="Crate" type="RigidBody2D" parent="."]
 position = Vector2(162, 126)
+collision_layer = 49
 gravity_scale = 0.0
 sleeping = true
 freeze = true
@@ -31,4 +34,8 @@ one_way_collision_margin = 0.0
 position = Vector2(-191, 152)
 
 [node name="Player" parent="." instance=ExtResource("3_sjj74")]
-collision_mask = 1
+
+[node name="weapon_sword" parent="." instance=ExtResource("4_gxqny")]
+position = Vector2(-183, -77)
+rotation = 1.5708
+scale = Vector2(0.75, 0.75)

@@ -1,29 +1,47 @@
-[gd_scene load_steps=8 format=3 uid="uid://cb4fxg1qk7i5g"]
+[gd_scene load_steps=4 format=3 uid="uid://cb4fxg1qk7i5g"]
 
 [ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_i1m5b"]
 [ext_resource type="Script" path="res://Game/Units/PlayerController.gd" id="2_4ayog"]
+[ext_resource type="Script" path="res://Game/Components/InputAction.gd" id="3_qq5cb"]
 
-[sub_resource type="InputEventAction" id="InputEventAction_joqmt"]
-action = &"move_left"
-
-[sub_resource type="InputEventAction" id="InputEventAction_7sccu"]
-action = &"move_right"
-
-[sub_resource type="InputEventAction" id="InputEventAction_cq1dr"]
-action = &"move_up"
-
-[sub_resource type="InputEventAction" id="InputEventAction_d4m80"]
-action = &"move_down"
-
-[sub_resource type="InputEventAction" id="InputEventAction_baiut"]
-action = &"main_action"
-
-[node name="Player" instance=ExtResource("1_i1m5b")]
+[node name="Player" node_paths=PackedStringArray("leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput") instance=ExtResource("1_i1m5b")]
 scale = Vector2(1.00423, 1.00425)
-collision_layer = 4
 script = ExtResource("2_4ayog")
-leftInput = SubResource("InputEventAction_joqmt")
-rightInput = SubResource("InputEventAction_7sccu")
-upInput = SubResource("InputEventAction_cq1dr")
-downInput = SubResource("InputEventAction_d4m80")
-mainActionInput = SubResource("InputEventAction_baiut")
+leftInput = NodePath("Inputs/Move Left")
+rightInput = NodePath("Inputs/Move Right")
+upInput = NodePath("Inputs/Move Up")
+downInput = NodePath("Inputs/Move Down")
+mainActionInput = NodePath("Inputs/Main Action")
+dropInput = NodePath("Inputs/Drop Action")
+
+[node name="Hurtbox" parent="." index="2"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Inputs" type="Node" parent="." index="3"]
+
+[node name="Move Down" type="Node" parent="Inputs" index="0"]
+script = ExtResource("3_qq5cb")
+action_name = "move_down"
+
+[node name="Move Up" type="Node" parent="Inputs" index="1"]
+script = ExtResource("3_qq5cb")
+action_name = "move_up"
+
+[node name="Move Left" type="Node" parent="Inputs" index="2"]
+script = ExtResource("3_qq5cb")
+action_name = "move_left"
+
+[node name="Move Right" type="Node" parent="Inputs" index="3"]
+script = ExtResource("3_qq5cb")
+action_name = "move_right"
+
+[node name="Main Action" type="Node" parent="Inputs" index="4"]
+script = ExtResource("3_qq5cb")
+action_name = "main_action"
+
+[node name="Drop Action" type="Node" parent="Inputs" index="5"]
+script = ExtResource("3_qq5cb")
+action_name = "drop_action"
+
+[connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]

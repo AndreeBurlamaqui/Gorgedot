@@ -1,12 +1,12 @@
 class_name ProjectileController
 extends Node2D
 
-# COMPONENTS
+@export_group("COMPONENTS")
 @export var timer : Timer
 @export var hitBox : Area2D
 @export var impactBox : Area2D
 
-# VALUES
+@export_group("VALUES")
 @export var speed := 250.0
 @export var lifetime := 3.0
 
@@ -27,5 +27,5 @@ func _physics_process(delta):
 func OnDestroy():
 	queue_free()
 
-func OnImpact(Node):
+func OnImpact(collision : Node):
 	OnDestroy()

@@ -5,9 +5,18 @@
 [ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="3_8v3cc"]
 
 [node name="Bow" node_paths=PackedStringArray("weaponTip") instance=ExtResource("1_wcag2")]
+scale = Vector2(0.823069, 0.741768)
 script = ExtResource("2_5gpj6")
 projectile = ExtResource("3_8v3cc")
 weaponTip = NodePath("Marker2D")
+dropForce = 250.0
+positionOnPick = Vector2(50, 0)
 
 [node name="Area2D" parent="." index="2"]
 position = Vector2(-1.33505, -3.90973)
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(1.33505, 5.27907)
+
+[node name="DropRaycast" parent="." index="3"]
+position = Vector2(0, 40.4439)

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://ck1j3ahoidavh"]
+
+[ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_7bb0x"]
+[ext_resource type="Texture2D" uid="uid://bjc10qancl8lg" path="res://Art/Items/weapon_longsword.png" id="2_xw1tf"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponSword.gd" id="3_i8erl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_256mr"]
+size = Vector2(47, 115.56)
+
+[node name="weapon_sword" instance=ExtResource("1_7bb0x")]
+position = Vector2(0, 8)
+scale = Vector2(1, 1.199)
+texture = ExtResource("2_xw1tf")
+offset = Vector2(0, -45)
+script = ExtResource("3_i8erl")
+dropSpeed = 1500
+rotationOnPick = -45
+positionOnPick = Vector2(20, -40)
+
+[node name="Marker2D" parent="." index="0"]
+position = Vector2(0, 4.17014)
+
+[node name="Timer" parent="." index="1"]
+wait_time = 0.25
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(0, -45.2192)
+shape = SubResource("RectangleShape2D_256mr")
+
+[node name="DropRaycast" parent="." index="3"]
+position = Vector2(0, 10.8424)

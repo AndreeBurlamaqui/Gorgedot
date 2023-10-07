@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb4fxg1qk7i5g"]
+
+[ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_i1m5b"]
+[ext_resource type="Script" path="res://Game/Units/PlayerController.gd" id="2_4ayog"]
+
+[node name="Player" instance=ExtResource("1_i1m5b")]
+scale = Vector2(1.00423, 1.00425)
+collision_layer = 4
+script = ExtResource("2_4ayog")
+moveSpeed = null

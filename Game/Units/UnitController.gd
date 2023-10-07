@@ -4,18 +4,16 @@ extends CharacterBody2D
 @export var moveSpeed := 500.0
 @export var moveAcceleration := 1500.0
 @export var moveFriction := 2500.0
-@export var leftInput : InputEventAction
-@export var rightInput : InputEventAction
-@export var upInput : InputEventAction
-@export var downInput : InputEventAction
-@export var mainActionInput : InputEventAction
 
 @export var currentWeapon : WeaponBase
 
-var tryMainAct = false
+var currentAimDirection : Vector2
 
 func _physics_process(delta):
-	var moveDirection = GetMoveInput()
+	OnStartPhysics(delta)
+	
+	# Calculate movement based on set direction
+	var moveDirection = GetMoveDirection()
 	if moveDirection == Vector2.ZERO:
 		# Apply friction
 		var frictionAmount = moveFriction * delta
@@ -28,44 +26,38 @@ func _physics_process(delta):
 		velocity += moveDirection * moveAcceleration * delta
 		velocity = velocity.limit_length(moveSpeed)
 	
+	# Rotate towards aim
+	currentAimDirection = GetAimDirection()
+	look_at(currentAimDirection)
+	
 	move_and_slide()
 	
-	# Rotate towards aim
-	look_at(GetAimInput())
-	
-		# Try to act after look_at so the direction is correct
-	if tryMainAct:
-		TryMainAction()
+	OnFinishPhysics(delta)
 
-func _unhandled_input(event):
-	if event.is_action_pressed(mainActionInput.action):
-		tryMainAct = true
-	
-	if event.is_action_released(mainActionInput.action):
-		tryMainAct = false
+func GetMoveDirection():
+	return Vector2.ZERO.normalized()
 
-func GetMoveInput():
-	var motion = Vector2()
-	if Input.is_action_pressed(leftInput.action):
-		motion.x -= 1
+func GetAimDirection():
+	return Vector2.RIGHT
 	
-	if Input.is_action_pressed(rightInput.action):
-		motion.x += 1
-	
-	if Input.is_action_pressed(upInput.action):
-		motion.y -= 1
-	
-	if Input.is_action_pressed(downInput.action):
-		motion.y += 1
-	
-	return motion.normalized()
-
-func GetAimInput():
-	# TODO: Make it use input instead of just mouse
-	return get_global_mouse_position()
-
 func TryMainAction():
 	if currentWeapon == null:
 		return
 	
 	currentWeapon.TryUse(self)
+
+func TryDropAction():
+	if(currentWeapon == null):
+		return
+	
+	currentWeapon.TryDrop(self)
+
+# In case we want to display or do something 
+# only before the physics are processed
+func OnStartPhysics(delta : float):
+	pass
+
+# In case we want to display or do something 
+# only after the physics are processed
+func OnFinishPhysics(delta : float):
+	pass
