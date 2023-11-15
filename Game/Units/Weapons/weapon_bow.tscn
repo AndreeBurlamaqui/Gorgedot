@@ -1,22 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxsio4wrr0w5c"]
+[gd_scene load_steps=7 format=3 uid="uid://bxsio4wrr0w5c"]
 
 [ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_wcag2"]
-[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponBow.gd" id="2_5gpj6"]
-[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="3_8v3cc"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponRanged.gd" id="2_nlosv"]
+[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="3_yk1mb"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/ProjectileData.gd" id="4_mn4gx"]
+
+[sub_resource type="Resource" id="Resource_i78nr"]
+script = ExtResource("4_mn4gx")
+projectile = ExtResource("3_yk1mb")
+damage = 0.0
+amount = 1.0
+angle = Vector2(5, -5)
+randomAngle = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wf53g"]
+size = Vector2(117.852, 95.7173)
 
 [node name="Bow" node_paths=PackedStringArray("weaponTip") instance=ExtResource("1_wcag2")]
 scale = Vector2(0.823069, 0.741768)
-script = ExtResource("2_5gpj6")
-projectile = ExtResource("3_8v3cc")
-weaponTip = NodePath("Marker2D")
+script = ExtResource("2_nlosv")
+projectiles = Array[ExtResource("4_mn4gx")]([SubResource("Resource_i78nr")])
+weaponTip = NodePath("Weapon/Marker2D")
 dropForce = 250.0
-positionOnPick = Vector2(50, 0)
 
-[node name="Area2D" parent="." index="2"]
-position = Vector2(-1.33505, -3.90973)
+[node name="Marker2D" type="Marker2D" parent="Weapon" index="0"]
+position = Vector2(0, -32.3551)
 
-[node name="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(1.33505, 5.27907)
-
-[node name="DropRaycast" parent="." index="3"]
-position = Vector2(0, 40.4439)
+[node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]
+position = Vector2(0, 2.84217e-14)
+shape = SubResource("RectangleShape2D_wf53g")

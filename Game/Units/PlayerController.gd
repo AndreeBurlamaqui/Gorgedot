@@ -10,9 +10,11 @@ extends UnitController
 @export var mainActionInput : InputAction
 @export var dropInput : InputAction
 
-func OnStartPhysics(delta):
+func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :
 		TryMainAction()
+		
+	super._physics_process(delta)
 
 func GetMoveDirection():
 	var motion = Vector2()

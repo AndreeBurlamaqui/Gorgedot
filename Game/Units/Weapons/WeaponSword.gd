@@ -19,7 +19,7 @@ func TryUse(user : UnitController):
 	var curveSword = do_arc(self, finalPos, 25, 0.25)
 #	swordTween.tween_property(self, "rotation", deg_to_rad(rotationOnPick), 0.15)
 	await swordTween.finished and curveSword.finished
-
+	
 	# Cooldown to attack again
 	cooldownTimer.start()
 	await cooldownTimer.timeout

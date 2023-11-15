@@ -8,13 +8,13 @@ extends CharacterBody2D
 @export var currentWeapon : WeaponBase
 
 var currentAimDirection : Vector2
+var canAim := true
+var canMove := true
 
 func _physics_process(delta):
-	OnStartPhysics(delta)
-	
 	# Calculate movement based on set direction
 	var moveDirection = GetMoveDirection()
-	if moveDirection == Vector2.ZERO:
+	if !canMove || moveDirection == Vector2.ZERO:
 		# Apply friction
 		var frictionAmount = moveFriction * delta
 		if velocity.length() > frictionAmount:
@@ -27,15 +27,14 @@ func _physics_process(delta):
 		velocity = velocity.limit_length(moveSpeed)
 	
 	# Rotate towards aim
-	currentAimDirection = GetAimDirection()
-	look_at(currentAimDirection)
+	if canAim:
+		currentAimDirection = GetAimDirection()
+		look_at(currentAimDirection)
 	
 	move_and_slide()
-	
-	OnFinishPhysics(delta)
 
 func GetMoveDirection():
-	return Vector2.ZERO.normalized()
+	return Vector2.ZERO
 
 func GetAimDirection():
 	return Vector2.RIGHT
@@ -52,12 +51,6 @@ func TryDropAction():
 	
 	currentWeapon.TryDrop(self)
 
-# In case we want to display or do something 
-# only before the physics are processed
-func OnStartPhysics(delta : float):
-	pass
-
-# In case we want to display or do something 
-# only after the physics are processed
-func OnFinishPhysics(delta : float):
-	pass
+func ApplyImpulse(direction : Vector2, force : float):
+	velocity = direction.normalized() * force
+	move_and_slide()

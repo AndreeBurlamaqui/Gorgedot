@@ -4,7 +4,7 @@ static func is_even(x) -> bool:
 	if typeof(x) == TYPE_INT or typeof(x) == TYPE_FLOAT:
 		return int(x) % 2 == 0
 	else:
-		print("Error: Argument is not an integer or a float.")
+		print("[TINY MATH]: Error! Argument is not an integer or a float.")
 		return false
 
 static func to_float(condition : bool) -> int:
@@ -18,3 +18,6 @@ static func pick(condition : bool, trueReturn, falseReturn):
 		return trueReturn
 	else :
 		return falseReturn
+
+static func rotation_to_direction(rotation):
+	return Vector2(cos(rotation), sin(rotation))

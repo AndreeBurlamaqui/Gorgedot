@@ -1,10 +1,25 @@
-[gd_scene load_steps=8 format=3 uid="uid://bav20wurwt0bd"]
+[gd_scene load_steps=10 format=3 uid="uid://bav20wurwt0bd"]
 
 [ext_resource type="Texture2D" uid="uid://crwwtwtoadipc" path="res://Art/Items/weapon_bow_arrow.png" id="1_36mm1"]
 [ext_resource type="Script" path="res://Game/Units/WeaponBase.gd" id="2_nc8o5"]
+[ext_resource type="Script" path="res://Game/Components/Hitbox.gd" id="3_imk8q"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6w2t"]
-size = Vector2(114, 90.363)
+[sub_resource type="Animation" id="Animation_sdmhj"]
+resource_name = "RESET"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Weapon/Hitbox")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"SetActive"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_58p3j"]
 resource_name = "drop_animation"
@@ -20,11 +35,25 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0, 6.28319]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Weapon/Hitbox")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"SetActive"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_l5whd"]
 resource_name = "pickup_animation"
 length = 0.100005
-step = 0.05
+step = 0.025
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -37,65 +66,120 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0.5, 0.5), Vector2(1, 1)]
 }
-
-[sub_resource type="Animation" id="Animation_eyxu2"]
-resource_name = "sword_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Weapon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-1.309, 1.309, 0.0]
+"values": [Vector2(35, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Weapon:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.436332]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Weapon2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-35, -64)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Weapon2:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wl02v"]
 _data = {
+"RESET": SubResource("Animation_sdmhj"),
 "drop_animation": SubResource("Animation_58p3j"),
-"pickup_animation": SubResource("Animation_l5whd"),
-"sword_animation": SubResource("Animation_eyxu2")
+"pickup_animation": SubResource("Animation_l5whd")
 }
 
-[node name="Weapon" type="Sprite2D" node_paths=PackedStringArray("cooldownTimer", "pickupArea", "dropRaycast", "animator")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6w2t"]
+size = Vector2(161, 124.364)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1hd"]
+size = Vector2(50, 122)
+
+[node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator")]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_36mm1")
 script = ExtResource("2_nc8o5")
+weaponHolder = NodePath("Weapon")
 cooldownTimer = NodePath("Timer")
-pickupArea = NodePath("Area2D")
+pickupArea = NodePath("Weapon/PickArea")
 dropRaycast = NodePath("DropRaycast")
 animator = NodePath("AnimationPlayer")
 onPickAnimation = "pickup_animation"
 onDropAnimation = "drop_animation"
 
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(-0.0001297, -36)
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
-scale = Vector2(1, 0.995983)
-collision_mask = 4
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 2.00807)
-shape = SubResource("RectangleShape2D_c6w2t")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Base_Weapon_Library": SubResource("AnimationLibrary_wl02v")
+}
 
 [node name="DropRaycast" type="RayCast2D" parent="."]
+position = Vector2(0, -65)
 target_position = Vector2(0, -200)
 collision_mask = 33
 collide_with_areas = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-method_call_mode = 1
-libraries = {
-"": SubResource("AnimationLibrary_wl02v")
-}
+[node name="Weapon" type="Node2D" parent="."]
+position = Vector2(35, 15)
+rotation = 0.436332
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="Visual" type="Sprite2D" parent="Weapon"]
+texture = ExtResource("1_36mm1")
+
+[node name="PickArea" type="Area2D" parent="Weapon"]
+scale = Vector2(1, 0.995983)
+collision_mask = 4
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/PickArea"]
+position = Vector2(0, 2.00807)
+shape = SubResource("RectangleShape2D_c6w2t")
+
+[node name="Hitbox" type="Area2D" parent="Weapon"]
+collision_layer = 0
+collision_mask = 3
+input_pickable = false
+script = ExtResource("3_imk8q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/Hitbox"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hb1hd")
+debug_color = Color(0.776471, 0, 0.235294, 0.419608)
+
+[connection signal="body_entered" from="Weapon/PickArea" to="." method="_on_area_2d_body_entered"]

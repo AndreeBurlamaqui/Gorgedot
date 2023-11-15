@@ -1,7 +1,8 @@
 class_name WeaponBase
-extends Sprite2D
+extends Node2D
 
 @export_group("COMPONENTS")
+@export var weaponHolder : Node2D 
 @export var cooldownTimer : Timer
 @export var pickupArea : Area2D
 @export var dropRaycast : RayCast2D
@@ -10,12 +11,9 @@ extends Sprite2D
 @export_group("VALUES")
 @export var dropForce = 500.0;
 @export var dropSpeed = 750;
-@export var rotationOnPick = 90;
-@export var positionOnPick = Vector2.ZERO;
 
 @export_group("ANIMATIONS")
 @export var onPickAnimation : String
-@export var onActionAnimation : String
 @export var onDropAnimation : String
 
 var unitOwner : UnitController
@@ -41,12 +39,9 @@ func TryPickup(user : UnitController):
 	self.get_parent().remove_child(self)
 	unitOwner.add_child(self)
 	var pickTween = create_tween()
-	# Set position and apply offset
 	global_position = unitOwner.global_position
-	position += positionOnPick
-	# Set weapon to be always to the right
-	# So that the weapon follows the unit rotation
-	rotation = deg_to_rad(rotationOnPick)
+	rotation_degrees = 90 # Default face upwards
+	weaponHolder.rotation = 0
 	PlayAnimation(onPickAnimation)
 	Reset()
 
@@ -64,25 +59,26 @@ func TryDrop(user : UnitController):
 	# towards the raycast drop
 	dropRaycast.enabled = true
 	# Raycast always need to look towards the unit's current aim
-	look_at(user.currentAimDirection)
-	rotation += PI/2  # Adjust for sprite facing upwards
+	weaponHolder.look_at(user.currentAimDirection)
+	weaponHolder.rotation += PI/2  # Adjust for sprite facing upwards
 	force_update_transform()
 	dropRaycast.force_raycast_update()
 	TinyUtils.visualize_raycast(dropRaycast, 0.5, Color.RED)
-	print("User rot: ", user.global_rotation, "\n Raycast rot: ", dropRaycast.global_rotation)
+#	print("User rot: ", user.global_rotation, "\n Raycast rot: ", dropRaycast.global_rotation)
 	
 	# We first check if the raycast hit something to get its end point
 	var oldPosition = global_position
-	var oldRotation = global_rotation
+	var oldRotation = weaponHolder.global_rotation
+	weaponHolder.position = Vector2.ZERO # Reset weapon root
 	var end_point = TinyUtils.get_end_point(dropRaycast)
-	TinyUtils.visualize_raycast(dropRaycast, 0.5, Color.YELLOW)
-	print("End point of drop raycast is", end_point)
+#	TinyUtils.visualize_raycast(dropRaycast, 0.5, Color.YELLOW)
+#	print("End point of drop raycast is", end_point)
 	
 	# Remove weapon as a child from the unit
 	var currentSceneRoot = get_tree().current_scene 
 	self.get_parent().remove_child(self)
 	currentSceneRoot.add_child(self)
-	global_rotation = oldRotation
+	weaponHolder.global_rotation = oldRotation
 	
 	# And then clean the current weapon from the unit
 	user.currentWeapon = null
@@ -100,8 +96,8 @@ func TryDrop(user : UnitController):
 	SetPickable(true)
 	# Stop animation with keep state for the rotation of the animation
 	animator.stop(true)
+	PlayAnimation("RESET")
 	Reset()
-
 
 func SetPickable(canPick : bool):
 	pickupArea.monitoring = canPick

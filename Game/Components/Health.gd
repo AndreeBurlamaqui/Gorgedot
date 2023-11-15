@@ -1,9 +1,14 @@
-class_name Health
 extends Area2D
+class_name Health
 
+@export_group("COMPONENTS")
+@export var animator : AnimationPlayer
+
+@export_group("VALUES")
 @export var maxHealth := 1.0
+@export var hurtAnimation := "basic_hurt"
 
-var curHealth
+var curHealth : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,8 +19,16 @@ func RestoreHealth(heal : float):
 
 func ApplyDamage(damage : float):
 	curHealth -= damage
+	PlayAnimation(hurtAnimation)
 	CheckDeath()
 
 func CheckDeath():
 	if curHealth <= 0:
 		queue_free()
+
+func PlayAnimation(animName : String):
+	if animator == null:
+		return
+	
+	animator.stop()
+	animator.play(animName)

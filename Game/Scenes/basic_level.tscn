@@ -1,22 +1,69 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6ysh7sy6ft3o"]
+[gd_scene load_steps=14 format=3 uid="uid://c6ysh7sy6ft3o"]
 
 [ext_resource type="Texture2D" uid="uid://b8q2xl5qc5142" path="res://Art/Environment/crate.png" id="2_uomle"]
+[ext_resource type="Script" path="res://Game/Components/Health.gd" id="3_brnsa"]
 [ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/unit_player.tscn" id="3_sjj74"]
 [ext_resource type="PackedScene" uid="uid://bxsio4wrr0w5c" path="res://Game/Units/Weapons/weapon_bow.tscn" id="3_vlvf6"]
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="4_gxqny"]
+[ext_resource type="PackedScene" uid="uid://bnlo6msnxyvmh" path="res://Game/Units/Weapons/weapon_electric_wand.tscn" id="5_ufmju"]
+[ext_resource type="PackedScene" uid="uid://b768bxlsi054b" path="res://Game/Units/Weapons/weapon_fire_staff.tscn" id="6_kr4r6"]
+[ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="7_thg4i"]
+[ext_resource type="PackedScene" uid="uid://31ww45ep24bk" path="res://Game/Units/Weapons/weapon_daggers.tscn" id="8_y60a4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxcuq"]
 size = Vector2(120, 120)
 
-[node name="Basic Level" type="Node2D"]
+[sub_resource type="Animation" id="Animation_a82dq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.261799]
+}
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(13, -1)
+[sub_resource type="Animation" id="Animation_oxag1"]
+resource_name = "basic_hurt"
+length = 0.25
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.261799, 0.785397, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_556a5"]
+_data = {
+"RESET": SubResource("Animation_a82dq"),
+"basic_hurt": SubResource("Animation_oxag1")
+}
+
+[node name="Basic Level" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-704.0]
+
+[node name="Player" parent="." instance=ExtResource("3_sjj74")]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(12.9452, -0.995768)
+scale = Vector2(0.995788, 0.995768)
 zoom = Vector2(0.38, 0.38)
 editor_draw_drag_margin = true
 
 [node name="Crate" type="RigidBody2D" parent="."]
-position = Vector2(162, 126)
+position = Vector2(220, 26)
 collision_layer = 49
 gravity_scale = 0.0
 sleeping = true
@@ -24,18 +71,45 @@ freeze = true
 freeze_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Crate"]
+rotation = -0.261799
 texture = ExtResource("2_uomle")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Crate"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Crate"]
 shape = SubResource("RectangleShape2D_yxcuq")
 one_way_collision_margin = 0.0
 
+[node name="Health" type="Area2D" parent="Crate" node_paths=PackedStringArray("animator")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("3_brnsa")
+animator = NodePath("../AnimationPlayer")
+maxHealth = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Crate/Health"]
+shape = SubResource("RectangleShape2D_yxcuq")
+one_way_collision_margin = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Crate"]
+libraries = {
+"": SubResource("AnimationLibrary_556a5")
+}
+
 [node name="Bow" parent="." instance=ExtResource("3_vlvf6")]
-position = Vector2(-191, 152)
+position = Vector2(-366, 270)
 
-[node name="Player" parent="." instance=ExtResource("3_sjj74")]
+[node name="Electric Wand" parent="." instance=ExtResource("5_ufmju")]
+position = Vector2(-456, 269)
 
-[node name="weapon_sword" parent="." instance=ExtResource("4_gxqny")]
-position = Vector2(-183, -77)
-rotation = 1.5708
-scale = Vector2(0.75, 0.75)
+[node name="Fire Staff" parent="." instance=ExtResource("6_kr4r6")]
+position = Vector2(-540, 270)
+
+[node name="Pole" parent="." instance=ExtResource("7_thg4i")]
+position = Vector2(-12, 286)
+scale = Vector2(1, 1)
+
+[node name="Sword" parent="." instance=ExtResource("4_gxqny")]
+position = Vector2(97, 300)
+scale = Vector2(1, 1)
+
+[node name="Daggers" parent="." instance=ExtResource("8_y60a4")]
+position = Vector2(465, 287)

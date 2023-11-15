@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://tu4lips5vyqw"]
+
+[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="1_0pd1r"]
+[ext_resource type="Script" path="res://sine_projectile.gd" id="2_bjvut"]
+[ext_resource type="Texture2D" uid="uid://bs07xpgp0hff0" path="res://Art/Characters/yellow_character.png" id="3_yeoyw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g8w6f"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_acc2n"]
+radius = 40.0
+
+[node name="Projectile" instance=ExtResource("1_0pd1r")]
+position = Vector2(-9, 4)
+script = ExtResource("2_bjvut")
+speed = 50.0
+
+[node name="Visual" parent="." index="0"]
+position = Vector2(0, 0)
+scale = Vector2(1, 1)
+texture = ExtResource("3_yeoyw")
+offset = Vector2(0, 0)
+
+[node name="CollisionShape2D" parent="ImpactBox" index="0"]
+shape = SubResource("CircleShape2D_g8w6f")
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+shape = SubResource("CircleShape2D_acc2n")
