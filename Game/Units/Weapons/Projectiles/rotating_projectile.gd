@@ -1,4 +1,4 @@
-extends ProjectileController
+class_name RotatingProjectile extends ProjectileController
 
 @export var rotationSpeed := 1
 var currentDirection := Vector2()

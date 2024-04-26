@@ -2,7 +2,10 @@ extends Area2D
 class_name Hitbox
 # Hitboxes will only search for Health components
 
+
+@export var holder : Node2D
 @export var damage := 0
+@export var knockback := 0
 
 var collisionShape : CollisionShape2D
 
@@ -17,14 +20,15 @@ func _ready() -> void:
 	# Store collision shape so I can disable it later
 	for child in get_children():
 		if child is CollisionShape2D:
-			print("Getting collision shape child")
+			# print("Getting collision shape child")
 			collisionShape = child
 
 func OnHit(hurtBox : Health):
 	if hurtBox == null:
 		return
 	
-	hurtBox.ApplyDamage(damage)
+	print("HIT: ", hurtBox.get_parent().name)
+	hurtBox.ApplyDamage(self, damage)
 
 func SetActive(newState : bool):
 	monitoring = newState

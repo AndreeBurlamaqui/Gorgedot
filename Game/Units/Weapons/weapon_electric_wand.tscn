@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_powj0"]
 [ext_resource type="Texture2D" uid="uid://dpokx1bb0jc58" path="res://Art/Items/weapon_staff.png" id="2_qfwte"]
+[ext_resource type="PackedScene" uid="uid://dmmceb4a4lh16" path="res://Game/Units/Weapons/Projectiles/rotating_projectile.tscn" id="3_g1npg"]
 [ext_resource type="Script" path="res://Game/Units/Weapons/WeaponRanged.gd" id="3_phmsc"]
-[ext_resource type="PackedScene" uid="uid://dmmceb4a4lh16" path="res://Game/Units/rotating_projectile.tscn" id="4_djogb"]
-[ext_resource type="Script" path="res://Game/Units/Weapons/ProjectileData.gd" id="4_itnnf"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/Projectiles/ProjectileData.gd" id="4_8ht7l"]
 
 [sub_resource type="Resource" id="Resource_f4an5"]
-script = ExtResource("4_itnnf")
-projectile = ExtResource("4_djogb")
+script = ExtResource("4_8ht7l")
+projectile = ExtResource("3_g1npg")
 damage = 0.0
 amount = 5.0
 angle = Vector2(-180, 180)
@@ -17,7 +17,7 @@ randomAngle = false
 [node name="Electric Wand" node_paths=PackedStringArray("weaponTip") instance=ExtResource("1_powj0")]
 modulate = Color(1, 1, 0, 1)
 script = ExtResource("3_phmsc")
-projectiles = Array[ExtResource("4_itnnf")]([SubResource("Resource_f4an5")])
+projectiles = Array[ExtResource("4_8ht7l")]([SubResource("Resource_f4an5")])
 weaponTip = NodePath("Weapon/Marker2D")
 
 [node name="Visual" parent="Weapon" index="0"]

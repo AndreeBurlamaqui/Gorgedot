@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bav20wurwt0bd"]
 
 [ext_resource type="Texture2D" uid="uid://crwwtwtoadipc" path="res://Art/Items/weapon_bow_arrow.png" id="1_36mm1"]
-[ext_resource type="Script" path="res://Game/Units/WeaponBase.gd" id="2_nc8o5"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponBase.gd" id="1_i71gw"]
 [ext_resource type="Script" path="res://Game/Components/Hitbox.gd" id="3_imk8q"]
 
 [sub_resource type="Animation" id="Animation_sdmhj"]
@@ -130,7 +130,7 @@ size = Vector2(50, 122)
 
 [node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator")]
 scale = Vector2(0.5, 0.5)
-script = ExtResource("2_nc8o5")
+script = ExtResource("1_i71gw")
 weaponHolder = NodePath("Weapon")
 cooldownTimer = NodePath("Timer")
 pickupArea = NodePath("Weapon/PickArea")
@@ -171,11 +171,13 @@ monitorable = false
 position = Vector2(0, 2.00807)
 shape = SubResource("RectangleShape2D_c6w2t")
 
-[node name="Hitbox" type="Area2D" parent="Weapon"]
+[node name="Hitbox" type="Area2D" parent="Weapon" node_paths=PackedStringArray("holder")]
 collision_layer = 0
 collision_mask = 3
 input_pickable = false
+monitoring = false
 script = ExtResource("3_imk8q")
+holder = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/Hitbox"]
 position = Vector2(0, 2)

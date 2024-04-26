@@ -2,13 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://b8q2xl5qc5142" path="res://Art/Environment/crate.png" id="2_uomle"]
 [ext_resource type="Script" path="res://Game/Components/Health.gd" id="3_brnsa"]
-[ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/unit_player.tscn" id="3_sjj74"]
+[ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/Player/unit_player.tscn" id="3_sjj74"]
 [ext_resource type="PackedScene" uid="uid://bxsio4wrr0w5c" path="res://Game/Units/Weapons/weapon_bow.tscn" id="3_vlvf6"]
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="4_gxqny"]
 [ext_resource type="PackedScene" uid="uid://bnlo6msnxyvmh" path="res://Game/Units/Weapons/weapon_electric_wand.tscn" id="5_ufmju"]
-[ext_resource type="PackedScene" uid="uid://b768bxlsi054b" path="res://Game/Units/Weapons/weapon_fire_staff.tscn" id="6_kr4r6"]
 [ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="7_thg4i"]
 [ext_resource type="PackedScene" uid="uid://31ww45ep24bk" path="res://Game/Units/Weapons/weapon_daggers.tscn" id="8_y60a4"]
+[ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="10_tycfk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxcuq"]
 size = Vector2(120, 120)
@@ -96,16 +96,11 @@ libraries = {
 
 [node name="Bow" parent="." instance=ExtResource("3_vlvf6")]
 position = Vector2(-366, 270)
+projectiles = Array[Resource("res://Game/Units/Weapons/Projectiles/ProjectileData.gd")]([])
 
 [node name="Electric Wand" parent="." instance=ExtResource("5_ufmju")]
 position = Vector2(-456, 269)
-
-[node name="Fire Staff" parent="." instance=ExtResource("6_kr4r6")]
-position = Vector2(-540, 270)
-
-[node name="Pole" parent="." instance=ExtResource("7_thg4i")]
-position = Vector2(-12, 286)
-scale = Vector2(1, 1)
+projectiles = Array[Resource("res://Game/Units/Weapons/Projectiles/ProjectileData.gd")]([])
 
 [node name="Sword" parent="." instance=ExtResource("4_gxqny")]
 position = Vector2(97, 300)
@@ -113,3 +108,9 @@ scale = Vector2(1, 1)
 
 [node name="Daggers" parent="." instance=ExtResource("8_y60a4")]
 position = Vector2(465, 287)
+
+[node name="Enemy Unit" parent="." instance=ExtResource("10_tycfk")]
+position = Vector2(-693, -182)
+
+[node name="Pole" parent="." instance=ExtResource("7_thg4i")]
+position = Vector2(-131, 354)

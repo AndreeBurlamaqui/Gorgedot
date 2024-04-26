@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_wcag2"]
 [ext_resource type="Script" path="res://Game/Units/Weapons/WeaponRanged.gd" id="2_nlosv"]
-[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/general_projectile.tscn" id="3_yk1mb"]
-[ext_resource type="Script" path="res://Game/Units/Weapons/ProjectileData.gd" id="4_mn4gx"]
+[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/Weapons/Projectiles/general_projectile.tscn" id="3_b8hvw"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/Projectiles/ProjectileData.gd" id="4_mn4gx"]
 
 [sub_resource type="Resource" id="Resource_i78nr"]
 script = ExtResource("4_mn4gx")
-projectile = ExtResource("3_yk1mb")
+projectile = ExtResource("3_b8hvw")
 damage = 0.0
 amount = 1.0
 angle = Vector2(5, -5)

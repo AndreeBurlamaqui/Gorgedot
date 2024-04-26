@@ -1,4 +1,4 @@
-extends UnitController
+class_name PlayerController extends UnitController
 # Extending from the Unit Controller to works as a brain
 # Will literally control the Unit based on inputs
 
@@ -9,6 +9,10 @@ extends UnitController
 @export var downInput : InputAction
 @export var mainActionInput : InputAction
 @export var dropInput : InputAction
+
+func _ready() -> void:
+	GameManager.Player = self
+	
 
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :
@@ -36,7 +40,6 @@ func GetMoveDirection():
 func GetAimDirection():
 	# TODO: Make it use input instead of just mouse
 	return get_global_mouse_position()
-
 
 func _on_drop_action_on_input_press():
 	TryDropAction()

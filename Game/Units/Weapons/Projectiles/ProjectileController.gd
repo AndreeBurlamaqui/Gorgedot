@@ -1,5 +1,4 @@
-class_name ProjectileController
-extends Node2D
+class_name ProjectileController extends Node2D
 
 @export_group("COMPONENTS")
 @export var timer : Timer

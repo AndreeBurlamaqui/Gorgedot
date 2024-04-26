@@ -407,11 +407,12 @@ rotation = 0.464359
 [node name="Visual" type="Sprite2D" parent="Weapon2" index="0"]
 texture = ExtResource("3_uqluw")
 
-[node name="Hitbox2" type="Area2D" parent="Weapon2" index="1"]
+[node name="Hitbox2" type="Area2D" parent="Weapon2" index="1" node_paths=PackedStringArray("holder")]
 collision_layer = 0
 collision_mask = 3
 monitoring = false
 script = ExtResource("4_jakn7")
+holder = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon2/Hitbox2" index="0"]
 shape = SubResource("RectangleShape2D_4bcc3")
@@ -426,6 +427,9 @@ texture = ExtResource("3_uqluw")
 
 [node name="CollisionShape2D" parent="Weapon/PickArea" index="0"]
 position = Vector2(-40.5, 2.00807)
+
+[node name="Hitbox" parent="Weapon" index="2"]
+knockback = 500
 
 [node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]
 position = Vector2(0, 0)

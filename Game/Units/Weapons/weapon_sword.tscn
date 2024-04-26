@@ -231,7 +231,7 @@ rotation = 3.90161
 texture = ExtResource("2_xw1tf")
 
 [node name="Hitbox" parent="Weapon" index="2"]
-monitoring = false
+knockback = 750
 
 [node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]
 position = Vector2(-5.74942e-05, -2.89018)

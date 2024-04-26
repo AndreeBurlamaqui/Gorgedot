@@ -1,5 +1,4 @@
-class_name WeaponBase
-extends Node2D
+class_name WeaponBase extends Node2D
 
 @export_group("COMPONENTS")
 @export var weaponHolder : Node2D 
