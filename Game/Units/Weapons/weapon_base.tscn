@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bav20wurwt0bd"]
+[gd_scene load_steps=11 format=3 uid="uid://bav20wurwt0bd"]
 
 [ext_resource type="Texture2D" uid="uid://crwwtwtoadipc" path="res://Art/Items/weapon_bow_arrow.png" id="1_36mm1"]
 [ext_resource type="Script" path="res://Game/Units/Weapons/WeaponBase.gd" id="1_i71gw"]
+[ext_resource type="Texture2D" uid="uid://b8ou7j2i35dgh" path="res://Art/Characters/red_hand.png" id="3_fqd7g"]
 [ext_resource type="Script" path="res://Game/Components/Hitbox.gd" id="3_imk8q"]
 
 [sub_resource type="Animation" id="Animation_sdmhj"]
@@ -128,7 +129,7 @@ size = Vector2(161, 124.364)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1hd"]
 size = Vector2(50, 122)
 
-[node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator")]
+[node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator", "handSprites")]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_i71gw")
 weaponHolder = NodePath("Weapon")
@@ -138,6 +139,7 @@ dropRaycast = NodePath("DropRaycast")
 animator = NodePath("AnimationPlayer")
 onPickAnimation = "pickup_animation"
 onDropAnimation = "drop_animation"
+handSprites = [NodePath("Weapon/Visual/Left Hand"), NodePath("Weapon/Visual/Right Hand")]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.4
@@ -160,6 +162,17 @@ rotation = 0.436332
 
 [node name="Visual" type="Sprite2D" parent="Weapon"]
 texture = ExtResource("1_36mm1")
+
+[node name="Left Hand" type="Sprite2D" parent="Weapon/Visual"]
+position = Vector2(1.21655, -28.1517)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_fqd7g")
+
+[node name="Right Hand" type="Sprite2D" parent="Weapon/Visual"]
+position = Vector2(-2.30608, 35.2801)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_fqd7g")
+flip_h = true
 
 [node name="PickArea" type="Area2D" parent="Weapon"]
 scale = Vector2(1, 0.995983)

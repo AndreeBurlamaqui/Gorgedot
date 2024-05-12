@@ -222,6 +222,9 @@ rotation = 0.0
 [node name="Visual" parent="Weapon" index="0"]
 texture = ExtResource("2_d0hdr")
 
+[node name="Left Hand" parent="Weapon/Visual" index="0"]
+position = Vector2(0, -7)
+
 [node name="Hitbox" parent="Weapon" index="2"]
 knockback = 1150
 

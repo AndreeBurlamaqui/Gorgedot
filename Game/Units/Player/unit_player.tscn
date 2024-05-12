@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cb4fxg1qk7i5g"]
+[gd_scene load_steps=5 format=3 uid="uid://cb4fxg1qk7i5g"]
 
 [ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_i1m5b"]
 [ext_resource type="Script" path="res://Game/Units/Player/PlayerController.gd" id="2_4ayog"]
+[ext_resource type="Texture2D" uid="uid://h7j3b4wr3lg7" path="res://Art/Characters/green_hand.png" id="3_2b56o"]
 [ext_resource type="Script" path="res://Game/Components/InputAction.gd" id="3_qq5cb"]
 
 [node name="Player" node_paths=PackedStringArray("leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "stunTimer") instance=ExtResource("1_i1m5b")]
@@ -14,6 +15,8 @@ downInput = NodePath("Inputs/Move Down")
 mainActionInput = NodePath("Inputs/Main Action")
 dropInput = NodePath("Inputs/Drop Action")
 stunTimer = NodePath("Stun")
+bodyVisual = ExtResource("3_2b56o")
+bodyScale = 2.0
 
 [node name="Hurtbox" parent="." index="2"]
 collision_layer = 0

@@ -10,7 +10,7 @@ radius = 44.1022
 [sub_resource type="CircleShape2D" id="CircleShape2D_hchhh"]
 radius = 38.2884
 
-[node name="Unit" type="CharacterBody2D"]
+[node name="Unit" type="CharacterBody2D" node_paths=PackedStringArray("bodyNode")]
 scale = Vector2(0.998726, 1.00425)
 collision_layer = 4
 collision_mask = 16
@@ -18,6 +18,7 @@ motion_mode = 1
 script = ExtResource("1_hrw8j")
 moveAcceleration = 4500.0
 moveFriction = 1500.0
+bodyNode = NodePath("Visual")
 
 [node name="Visual" type="Sprite2D" parent="."]
 texture = ExtResource("1_wnd7u")

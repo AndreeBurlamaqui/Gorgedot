@@ -11,9 +11,19 @@ class_name UnitController extends CharacterBody2D
 @export_group("HEALTH")
 @export var stunTimer : Timer
 
+@export_group("VISUAL")
+@export var bodyNode = Sprite2D
+@export var bodyVisual = Texture2D
+@export var bodyScale = 1.0
+@export var handsVisual = Texture2D
+
 var currentAimDirection : Vector2
 var canAim := true
 var canMove := true
+
+func _enter_tree():
+	bodyNode.texture = bodyVisual
+	bodyNode.scale = Vector2.ONE * bodyScale
 
 func _physics_process(delta):
 	# Calculate movement based on set direction

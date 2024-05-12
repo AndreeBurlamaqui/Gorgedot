@@ -14,12 +14,21 @@ class_name WeaponBase extends Node2D
 @export_group("ANIMATIONS")
 @export var onPickAnimation : String
 @export var onDropAnimation : String
+@export var handSprites : Array[Sprite2D] = []
 
 var unitOwner : UnitController
 
+func _enter_tree():
+	var hasInitOwner = unitOwner != null
+	for hand in handSprites:
+		hand.visible = hasInitOwner
+
 func _ready():
-	dropRaycast.target_position = Vector2(0, -dropForce)
-	dropRaycast.enabled = false
+	if dropRaycast != null:
+		dropRaycast.target_position = Vector2(0, -dropForce)
+		dropRaycast.enabled = false
+	else:
+		print("Null drop raycast on ", name)
 	Reset()
 
 func Reset():
@@ -41,6 +50,14 @@ func TryPickup(user : UnitController):
 	global_position = unitOwner.global_position
 	rotation_degrees = 90 # Default face upwards
 	weaponHolder.rotation = 0
+	
+	# Setup hands
+	for hand in handSprites:
+		var handSprite = user.handsVisual
+		hand.visible = handSprite != null
+		hand.texture = handSprite
+	
+	# Finish animations
 	PlayAnimation(onPickAnimation)
 	Reset()
 

@@ -83,6 +83,18 @@ tracks/5/keys = {
 "method": &"SetActive"
 }]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Weapon/Visual/Left Hand:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-87.4707, 44.6544)]
+}
 
 [sub_resource type="Animation" id="Animation_67vr8"]
 resource_name = "dagger_combo_1"
@@ -167,6 +179,18 @@ tracks/5/keys = {
 "method": &"SetActive"
 }]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Weapon/Visual/Left Hand:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.015, 0.03, 0.045, 0.06, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-83.3891, 83.2542), Vector2(-70.8644, 64.1931), Vector2(-70.1851, 12.4143), Vector2(-82.5986, -41.6667), Vector2(-110.625, -69.2348), Vector2(-117.334, -83.6225), Vector2(-85.0562, -14.4032)]
+}
 
 [sub_resource type="Animation" id="Animation_pdbta"]
 resource_name = "new_animation"
@@ -250,6 +274,18 @@ tracks/5/keys = {
 "args": [false],
 "method": &"SetActive"
 }]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Weapon/Visual/Left Hand:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.015, 0.045, 0.09, 0.12, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-86.7466, -18.0284), Vector2(-67.468, 5.22662), Vector2(-63, 75.5), Vector2(-59, 204), Vector2(-61, 162), Vector2(-61, 100)]
 }
 
 [sub_resource type="Animation" id="Animation_58p3j"]
@@ -371,6 +407,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Weapon/Visual/Left Hand:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-85.9014, -16.2156)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n6t80"]
 _data = {
@@ -385,6 +433,7 @@ _data = {
 size = Vector2(70, 120)
 
 [node name="Daggers" instance=ExtResource("1_lv2bp")]
+rotation = 6.28319
 script = ExtResource("2_o1n5w")
 comboAnimation = Array[String](["dagger_combo_1", "dagger_combo_2"])
 impulseForce = 150
@@ -413,6 +462,7 @@ collision_mask = 3
 monitoring = false
 script = ExtResource("4_jakn7")
 holder = NodePath("../..")
+knockback = 350
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon2/Hitbox2" index="0"]
 shape = SubResource("RectangleShape2D_4bcc3")
@@ -425,11 +475,17 @@ rotation = 0.427205
 [node name="Visual" parent="Weapon" index="0"]
 texture = ExtResource("3_uqluw")
 
+[node name="Left Hand" parent="Weapon/Visual" index="0"]
+position = Vector2(-87.4707, 44.6544)
+
+[node name="Right Hand" parent="Weapon/Visual" index="1"]
+position = Vector2(-0.0675163, 26.4007)
+
 [node name="CollisionShape2D" parent="Weapon/PickArea" index="0"]
 position = Vector2(-40.5, 2.00807)
 
 [node name="Hitbox" parent="Weapon" index="2"]
-knockback = 500
+knockback = 350
 
 [node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]
 position = Vector2(0, 0)

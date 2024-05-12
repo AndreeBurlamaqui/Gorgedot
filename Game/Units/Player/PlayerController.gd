@@ -12,7 +12,6 @@ class_name PlayerController extends UnitController
 
 func _ready() -> void:
 	GameManager.Player = self
-	
 
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :

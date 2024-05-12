@@ -1,11 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://c6ysh7sy6ft3o"]
+[gd_scene load_steps=12 format=3 uid="uid://c6ysh7sy6ft3o"]
 
 [ext_resource type="Texture2D" uid="uid://b8q2xl5qc5142" path="res://Art/Environment/crate.png" id="2_uomle"]
 [ext_resource type="Script" path="res://Game/Components/Health.gd" id="3_brnsa"]
 [ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/Player/unit_player.tscn" id="3_sjj74"]
-[ext_resource type="PackedScene" uid="uid://bxsio4wrr0w5c" path="res://Game/Units/Weapons/weapon_bow.tscn" id="3_vlvf6"]
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="4_gxqny"]
-[ext_resource type="PackedScene" uid="uid://bnlo6msnxyvmh" path="res://Game/Units/Weapons/weapon_electric_wand.tscn" id="5_ufmju"]
 [ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="7_thg4i"]
 [ext_resource type="PackedScene" uid="uid://31ww45ep24bk" path="res://Game/Units/Weapons/weapon_daggers.tscn" id="8_y60a4"]
 [ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="10_tycfk"]
@@ -94,13 +92,11 @@ libraries = {
 "": SubResource("AnimationLibrary_556a5")
 }
 
-[node name="Bow" parent="." instance=ExtResource("3_vlvf6")]
+[node name="Bow" parent="." instance=ExtResource("8_y60a4")]
 position = Vector2(-366, 270)
-projectiles = Array[Resource("res://Game/Units/Weapons/Projectiles/ProjectileData.gd")]([])
 
-[node name="Electric Wand" parent="." instance=ExtResource("5_ufmju")]
+[node name="Electric Wand" parent="." instance=ExtResource("8_y60a4")]
 position = Vector2(-456, 269)
-projectiles = Array[Resource("res://Game/Units/Weapons/Projectiles/ProjectileData.gd")]([])
 
 [node name="Sword" parent="." instance=ExtResource("4_gxqny")]
 position = Vector2(97, 300)
