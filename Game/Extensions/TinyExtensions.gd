@@ -55,3 +55,8 @@ static func visualize_angle(origin : Node2D, angle : Vector2, duration : float, 
 	await timer.timeout
 	line.queue_free()
 	timer.queue_free()
+
+static func set_time_scale(newScale : float, duration : float):
+	Engine.time_scale = newScale
+	await Engine.get_main_loop().create_timer(duration * newScale, true, false, true).timeout
+	Engine.time_scale = 1

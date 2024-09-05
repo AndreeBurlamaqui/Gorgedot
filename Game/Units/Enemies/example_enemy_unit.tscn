@@ -25,3 +25,5 @@ collision_layer = 7
 
 [node name="Stun" parent="." index="3"]
 wait_time = 0.35
+
+[connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]

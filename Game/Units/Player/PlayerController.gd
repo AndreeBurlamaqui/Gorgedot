@@ -42,3 +42,7 @@ func GetAimDirection():
 
 func _on_drop_action_on_input_press():
 	TryDropAction()
+
+
+func _on_health_hit(attacker, health):
+	TinyUtils.set_time_scale(0.05, 1.15)

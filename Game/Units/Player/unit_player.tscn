@@ -48,4 +48,5 @@ action_name = "main_action"
 script = ExtResource("3_qq5cb")
 action_name = "drop_action"
 
+[connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
