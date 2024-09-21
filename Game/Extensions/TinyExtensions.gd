@@ -60,3 +60,23 @@ static func set_time_scale(newScale : float, duration : float):
 	Engine.time_scale = newScale
 	await Engine.get_main_loop().create_timer(duration * newScale, true, false, true).timeout
 	Engine.time_scale = 1
+
+static func get_random_position_outside(origin : Vector2, area : Vector2, radius : float) -> Vector2:
+	var side = randi() % 4  # Choose a random side (0-3)
+	var randomPos = Vector2.ZERO
+	
+	match side:
+		0:  # Top
+			randomPos.x = randf_range(-radius, area.x - radius)
+			randomPos.y = -radius
+		1:  # Right
+			randomPos.x = area.x + radius
+			randomPos.y = randf_range(-radius, area.y - radius)
+		2:  # Bottom
+			randomPos.x = randf_range(-radius, area.x - radius)
+			randomPos.y = area.y + radius
+		3:  # Left
+			randomPos.x = -radius
+			randomPos.y = randf_range(-radius, area.y - radius)
+	
+	return origin + randomPos - area / 2
