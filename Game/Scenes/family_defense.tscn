@@ -1,0 +1,120 @@
+[gd_scene load_steps=13 format=3 uid="uid://d26mt0tdo0u5k"]
+
+[ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/Player/unit_player.tscn" id="1_w2fda"]
+[ext_resource type="Script" path="res://Game/Units/Player/family_nexus.gd" id="2_50mvr"]
+[ext_resource type="Texture2D" uid="uid://cp5tqxryp58jj" path="res://icon.png" id="2_u4tki"]
+[ext_resource type="Theme" uid="uid://dic0hjorgbpq2" path="res://Art/UI/ui_theme.tres" id="3_eicg3"]
+[ext_resource type="Script" path="res://Game/Components/Health.gd" id="5_cpjej"]
+[ext_resource type="Script" path="res://Game/Spawner.gd" id="6_ougjm"]
+[ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="7_8j5lw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eswoy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcgbv"]
+bg_color = Color(0.294118, 0.0823529, 0.152941, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+shadow_size = 3
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_15bxr"]
+bg_color = Color(0.713726, 0.266667, 0.415686, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tga0g"]
+size = Vector2(131, 134)
+
+[sub_resource type="Curve" id="Curve_1qryp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 2.18526, 0.0, 0, 0]
+point_count = 2
+
+[node name="family_defense" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Player" parent="." instance=ExtResource("1_w2fda")]
+position = Vector2(2, 136)
+
+[node name="Family" type="Node2D" parent="." node_paths=PackedStringArray("hp_bar", "hurtbox")]
+script = ExtResource("2_50mvr")
+hp_bar = NodePath("Control/Panel/ProgressBar")
+hurtbox = NodePath("Health")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Family"]
+collision_layer = 17
+collision_mask = 48
+
+[node name="Sprite2D" type="Sprite2D" parent="Family/StaticBody2D"]
+texture = ExtResource("2_u4tki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Family/StaticBody2D"]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_eswoy")
+
+[node name="Control" type="Control" parent="Family"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Family/Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = -60.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+auto_translate = false
+localize_numeral_system = false
+mouse_filter = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Family/Control/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.5
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1, 0.35)
+auto_translate = false
+localize_numeral_system = false
+mouse_filter = 2
+theme = ExtResource("3_eicg3")
+theme_override_styles/background = SubResource("StyleBoxFlat_wcgbv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_15bxr")
+value = 36.7
+
+[node name="Health" type="Area2D" parent="Family"]
+script = ExtResource("5_cpjej")
+maxHealth = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Family/Health"]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_tga0g")
+
+[node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("6_ougjm")
+enemy = ExtResource("7_8j5lw")
+camera = NodePath("../Camera2D")
+difficultyCurve = SubResource("Curve_1qryp")
+
+[connection signal="on_hit" from="Family/Health" to="Family" method="_on_health_on_hit"]

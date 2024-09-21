@@ -75,6 +75,7 @@ pointing/emulate_mouse_from_touch=false
 2d_physics/layer_3="Collectable"
 2d_physics/layer_5="Ally"
 2d_physics/layer_6="Enemy"
+2d_physics/layer_7="Nexus"
 
 [rendering]
 
