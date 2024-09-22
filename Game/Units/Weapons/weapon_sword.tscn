@@ -238,6 +238,7 @@ z_index = -1
 position = Vector2(-6.07869, 44.4078)
 
 [node name="Hitbox" parent="Weapon" index="2"]
+damage = 2
 knockback = 750
 
 [node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]

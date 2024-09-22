@@ -46,3 +46,4 @@ func TryDrop(user : UnitController):
 func Reset():
 	attackCount = 0
 	isAttacking = false
+	

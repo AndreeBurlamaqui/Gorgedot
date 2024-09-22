@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_wsryk"]
 [ext_resource type="Script" path="res://Game/Units/Enemies/EnemyController.gd" id="2_ojer1"]
-[ext_resource type="Resource" uid="uid://c4uq77jqqnjam" path="res://Game/Units/Enemies/Movements/chaser_movement.tres" id="3_helry"]
+[ext_resource type="Resource" uid="uid://dtpvyfrkfetns" path="res://Game/Units/Enemies/Movements/Chaser_Default.tres" id="3_n44cq"]
 [ext_resource type="Texture2D" uid="uid://bd4uobjc76wnv" path="res://Art/Characters/red_character.png" id="3_yjf2b"]
 [ext_resource type="Texture2D" uid="uid://b8ou7j2i35dgh" path="res://Art/Characters/red_hand.png" id="5_dp185"]
 
@@ -10,10 +10,10 @@
 
 [node name="Enemy Unit" node_paths=PackedStringArray("focusArea", "stunTimer") instance=ExtResource("1_wsryk")]
 collision_layer = 32
-collision_mask = 33
+collision_mask = 49
 script = ExtResource("2_ojer1")
-AttackDistance = 100.0
-MovementType = ExtResource("3_helry")
+AttackDistance = 125.0
+MovementType = ExtResource("3_n44cq")
 focusArea = NodePath("Focus Area")
 moveAcceleration = 2500.0
 moveFriction = 5000.0

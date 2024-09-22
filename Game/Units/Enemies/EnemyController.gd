@@ -1,4 +1,3 @@
-@tool
 class_name EnemyController extends UnitController
 
 @export var AttackDistance : float = 200.0:

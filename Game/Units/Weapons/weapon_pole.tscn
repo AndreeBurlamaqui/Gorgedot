@@ -226,6 +226,7 @@ texture = ExtResource("2_d0hdr")
 position = Vector2(0, -7)
 
 [node name="Hitbox" parent="Weapon" index="2"]
+damage = 3
 knockback = 1150
 
 [node name="CollisionShape2D" parent="Weapon/Hitbox" index="0"]

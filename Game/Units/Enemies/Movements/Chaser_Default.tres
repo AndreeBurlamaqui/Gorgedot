@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="Chaser" load_steps=2 format=3 uid="uid://dtpvyfrkfetns"]
+
+[ext_resource type="Script" path="res://Game/Units/Enemies/Movements/EnemyMovementChaser.gd" id="1_lg3pl"]
+
+[resource]
+script = ExtResource("1_lg3pl")

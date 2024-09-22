@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d26mt0tdo0u5k"]
+[gd_scene load_steps=15 format=3 uid="uid://d26mt0tdo0u5k"]
 
 [ext_resource type="Script" path="res://Game/Units/Player/family_nexus.gd" id="2_50mvr"]
 [ext_resource type="Texture2D" uid="uid://cp5tqxryp58jj" path="res://icon.png" id="2_u4tki"]
@@ -7,15 +7,10 @@
 [ext_resource type="Script" path="res://Game/Spawner.gd" id="6_ougjm"]
 [ext_resource type="PackedScene" uid="uid://cb4fxg1qk7i5g" path="res://Game/Units/Player/unit_player.tscn" id="7_8j5lw"]
 [ext_resource type="PackedScene" uid="uid://31ww45ep24bk" path="res://Game/Units/Weapons/weapon_daggers.tscn" id="7_hgnyu"]
-[ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="7_wx2h3"]
 [ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="8_p0of0"]
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="9_lvhu5"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2mxbh"]
-friction = 0.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_w8ghp"]
-radius = 50.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eswoy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcgbv"]
 bg_color = Color(0.294118, 0.0823529, 0.152941, 1)
@@ -49,10 +44,7 @@ point_count = 2
 zoom = Vector2(0.5, 0.5)
 
 [node name="Player" parent="." instance=ExtResource("7_8j5lw")]
-position = Vector2(6, 174)
-platform_on_leave = 0
-platform_floor_layers = 4294967295
-safe_margin = 0.015
+position = Vector2(2, 136)
 
 [node name="Family" type="Node2D" parent="." node_paths=PackedStringArray("hp_bar", "hurtbox")]
 script = ExtResource("2_50mvr")
@@ -60,23 +52,21 @@ hp_bar = NodePath("Control/Panel/ProgressBar")
 hurtbox = NodePath("Health")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Family"]
-disable_mode = 1
+collision_layer = 17
 collision_mask = 48
-physics_material_override = SubResource("PhysicsMaterial_2mxbh")
 
 [node name="Sprite2D" type="Sprite2D" parent="Family/StaticBody2D"]
 texture = ExtResource("2_u4tki")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Family/StaticBody2D"]
-shape = SubResource("CircleShape2D_w8ghp")
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_eswoy")
 
 [node name="Control" type="Control" parent="Family"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -2.0
-offset_top = -1.0
-offset_right = 38.0
-offset_bottom = 39.0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Panel" type="Panel" parent="Family/Control"]
 self_modulate = Color(1, 1, 1, 0)
@@ -117,9 +107,6 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_15bxr")
 value = 36.7
 
 [node name="Health" type="Area2D" parent="Family"]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
 script = ExtResource("5_cpjej")
 maxHealth = 100.0
 
@@ -129,10 +116,11 @@ shape = SubResource("RectangleShape2D_tga0g")
 
 [node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("6_ougjm")
-enemy = ExtResource("7_wx2h3")
+enemy = ExtResource("7_8j5lw")
 weapons = Array[PackedScene]([ExtResource("7_hgnyu"), ExtResource("8_p0of0"), ExtResource("9_lvhu5")])
 camera = NodePath("../Camera2D")
+startEnemyCount = null
 difficultyCurve = SubResource("Curve_1qryp")
-startDelay = 5.0
+startDelay = null
 
 [connection signal="on_hit" from="Family/Health" to="Family" method="_on_health_on_hit"]
