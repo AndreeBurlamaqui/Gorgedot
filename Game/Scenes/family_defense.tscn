@@ -1,5 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://d26mt0tdo0u5k"]
+[gd_scene load_steps=18 format=3 uid="uid://d26mt0tdo0u5k"]
 
+[ext_resource type="Script" path="res://Game/Components/Camera.gd" id="1_i6vx7"]
 [ext_resource type="Script" path="res://Game/Units/Player/family_nexus.gd" id="2_50mvr"]
 [ext_resource type="Texture2D" uid="uid://cp5tqxryp58jj" path="res://icon.png" id="2_u4tki"]
 [ext_resource type="Theme" uid="uid://dic0hjorgbpq2" path="res://Art/UI/ui_theme.tres" id="3_eicg3"]
@@ -47,6 +48,7 @@ point_count = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
+script = ExtResource("1_i6vx7")
 
 [node name="Player" parent="." instance=ExtResource("7_8j5lw")]
 position = Vector2(6, 174)

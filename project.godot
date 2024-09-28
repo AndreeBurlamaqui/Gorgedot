@@ -19,6 +19,7 @@ config/icon="res://Art/Characters/green_character.png"
 [autoload]
 
 GameManager="*res://Game/GameManager.gd"
+CameraManager="*res://Game/CameraManager.gd"
 
 [display]
 

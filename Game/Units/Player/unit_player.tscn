@@ -9,7 +9,6 @@
 scale = Vector2(1.00423, 1.00425)
 collision_layer = 16
 collision_mask = 49
-wall_min_slide_angle = 0.0
 script = ExtResource("2_4ayog")
 leftInput = NodePath("Inputs/Move Left")
 rightInput = NodePath("Inputs/Move Right")
@@ -22,8 +21,9 @@ bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
 
 [node name="Hurtbox" parent="." index="2"]
-collision_layer = 16
-collision_mask = 32
+collision_layer = 18
+collision_mask = 34
+maxHealth = 5000.0
 
 [node name="Inputs" type="Node" parent="." index="3"]
 
