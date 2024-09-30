@@ -1,31 +1,25 @@
 extends Node
 
 var mainCamera : Camera
-var noise : FastNoiseLite
 var shakeTween : Tween
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	noise = FastNoiseLite.new()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func SetMainCamera(newCam : Camera):
 	mainCamera = newCam
 
 func Shake(intensity : float, duration : float):
-	if shakeTween != null:
+	if shakeTween and shakeTween.is_valid(): # Cancel any ongoing shake
 		shakeTween.kill()
-	shakeTween = create_tween()
-	var force = noise.get_noise_1d(Time.get_ticks_msec() * intensity)
-	var randomX = randf_range(-intensity, intensity)
-	var randomY = randf_range(-intensity, intensity)
-	var offset = Vector2(force * randomX, force * randomY)
+	
 	var oldPos = mainCamera.global_position
-	shakeTween.tween_property(mainCamera, "global_position", offset, duration)
-	shakeTween.tween_property(mainCamera, "global_position", oldPos, duration * 0.15)
+	shakeTween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	shakeTween.tween_method(_shake_progress.bind(intensity), 0.0, 1.0, duration)
 	shakeTween.play()
 	await shakeTween.finished
 	mainCamera.global_position = oldPos
+
+func _shake_progress(progress : float, intensity : float):
+	var decreaser = 1.0 - progress
+	var randX = randf_range(-1, 1) * intensity * decreaser
+	var randY = randf_range(-1, 1) * intensity * decreaser
+	mainCamera.global_position = Vector2(randX, randY)
+	# print("Shaking camera by ", mainCamera.global_position, "[%.2f/1]" %decreaser)
