@@ -36,7 +36,11 @@ func _enter_tree():
 
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :
-		TryMainAction()
+		if currentWeapon == null :
+			# Use goop instead
+			goop.attack(self)
+		else :
+			TryMainAction()
 	
 	super._physics_process(delta)
 

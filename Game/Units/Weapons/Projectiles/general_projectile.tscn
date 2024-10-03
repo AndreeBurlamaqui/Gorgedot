@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Game/Components/Hitbox.gd" id="3_jka0j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11g6q"]
-size = Vector2(11.42, 55.5661)
+size = Vector2(11.42, 32.5009)
 
 [sub_resource type="Animation" id="Animation_41wnv"]
 resource_name = "on_hit_animation"
@@ -65,12 +65,16 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lvm"]
-size = Vector2(20, 63)
+size = Vector2(20, 38)
 
-[node name="Projectile" type="Node2D"]
+[node name="Projectile" type="Node2D" node_paths=PackedStringArray("timer", "hitBox", "impactBox", "animator")]
 position = Vector2(-2, 1)
 scale = Vector2(1, 0.994539)
 script = ExtResource("1_1ish4")
+timer = NodePath("Timer")
+hitBox = NodePath("Hitbox")
+impactBox = NodePath("ImpactBox")
+animator = NodePath("AnimationPlayer")
 speed = 950.0
 hitAnimation = "on_hit_animation"
 
@@ -84,7 +88,7 @@ offset = Vector2(0, 50)
 [node name="ImpactBox" type="Area2D" parent="."]
 rotation = 1.5708
 collision_layer = 0
-collision_mask = 33
+collision_mask = 32
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ImpactBox"]
@@ -101,10 +105,13 @@ libraries = {
 "": SubResource("AnimationLibrary_oolsx")
 }
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("holder")]
 collision_layer = 0
-collision_mask = 3
+collision_mask = 32
 script = ExtResource("3_jka0j")
+holder = NodePath("..")
+damage = 1
+knockback = 25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0.499998, 1.78814e-06)

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c58efox3v2m5x"]
+
+[ext_resource type="PackedScene" uid="uid://bav20wurwt0bd" path="res://Game/Units/Weapons/weapon_base.tscn" id="1_7gnfs"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/WeaponRanged.gd" id="2_bnf2s"]
+
+[node name="Ranged Weapon" node_paths=PackedStringArray("weaponTip") instance=ExtResource("1_7gnfs")]
+script = ExtResource("2_bnf2s")
+projectiles = Array[Resource("res://Game/Units/Weapons/Projectiles/ProjectileData.gd")]([])
+weaponTip = NodePath("Tip Position")
+
+[node name="Weapon" parent="." index="3"]
+position = Vector2(0, 0)
+rotation = 0.0
+
+[node name="Tip Position" type="Node2D" parent="." index="4"]
+position = Vector2(0, -34)

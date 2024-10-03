@@ -36,6 +36,7 @@ func OnDestroy():
 	queue_free()
 
 func OnImpact(collision : Node):
+	hitBox.monitoring = false
 	animator.play(hitAnimation)
 	canMove = false
 	await animator.animation_finished

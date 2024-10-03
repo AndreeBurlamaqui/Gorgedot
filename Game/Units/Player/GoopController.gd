@@ -1,6 +1,8 @@
-class_name GoopController extends Node
+class_name GoopController extends Node2D
 
 @export var health : Health
+@export var goop_weapon : WeaponRanged
+@export var goop_weapon_cost := 5
 var _max_goop := 200
 var cur_goop := 0
 
@@ -9,6 +11,7 @@ signal on_update(max : float, current : float)
 func _ready():
 	health.on_hit.connect(_on_health_hit)
 	reset(health.maxHealth)
+	goop_weapon.unitOwner = GameManager.Player
 
 func free():
 	health.on_hit.disconnect(_on_health_hit)
@@ -31,3 +34,7 @@ func reduce(value : float):
 
 func add(value : float):
 	_update(cur_goop + value)
+
+func attack(player : UnitController):
+	goop_weapon.TryUse(player)
+	reduce(goop_weapon_cost)
