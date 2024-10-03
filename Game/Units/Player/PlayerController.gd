@@ -102,3 +102,8 @@ func _on_dash_action_on_input_press():
 	_is_dashing = false
 	await get_tree().create_timer(_dashCooldown).timeout
 	_can_dash = true
+
+func can_consume(unit : Health) -> bool :
+	var percentage = unit.curHealth / unit.maxHealth
+	print("Check consume: " , percentage)
+	return percentage <= _consume_threshold

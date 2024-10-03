@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://q6p71erhbfr7"]
+[gd_scene load_steps=13 format=3 uid="uid://q6p71erhbfr7"]
 
 [ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_wsryk"]
 [ext_resource type="Script" path="res://Game/Units/Enemies/EnemyController.gd" id="2_ojer1"]
@@ -9,17 +9,73 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5710o"]
 shader = ExtResource("6_q74af")
-shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/tint = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_31h1g"]
 
-[node name="Enemy Unit" node_paths=PackedStringArray("focusArea", "stunTimer") instance=ExtResource("1_wsryk")]
+[sub_resource type="Animation" id="Animation_or8kt"]
+resource_name = "can_consume_flash"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:material:shader_parameter/tint")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0.980392, 0, 0.368627, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hneih"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:material:shader_parameter/tint")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4gigj"]
+resource_name = "hit"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:material:shader_parameter/tint")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.057371, 0.0664529, 0.149397),
+"transitions": PackedFloat32Array(0.554785, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oqxh5"]
+_data = {
+"RESET": SubResource("Animation_hneih"),
+"can_consume_flash": SubResource("Animation_or8kt"),
+"hit": SubResource("Animation_4gigj")
+}
+
+[node name="Enemy Unit" node_paths=PackedStringArray("focusArea", "_flash_animations", "stunTimer") instance=ExtResource("1_wsryk")]
 collision_layer = 32
 collision_mask = 49
 script = ExtResource("2_ojer1")
 AttackDistance = 125.0
 MovementType = ExtResource("3_n44cq")
 focusArea = NodePath("Focus Area")
+_flash_animations = NodePath("Can Consume Flash")
 moveAcceleration = 2500.0
 moveFriction = 5000.0
 stunTimer = NodePath("Stun")
@@ -27,6 +83,10 @@ bodyVisual = ExtResource("3_yjf2b")
 handsVisual = ExtResource("5_dp185")
 
 [node name="Visual" parent="." index="0"]
+material = SubResource("ShaderMaterial_5710o")
+texture = ExtResource("3_yjf2b")
+
+[node name="Visual" type="Sprite2D" parent="Visual" index="0"]
 material = SubResource("ShaderMaterial_5710o")
 texture = ExtResource("3_yjf2b")
 
@@ -45,5 +105,10 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Focus Area" index="0"]
 scale = Vector2(50, 50)
 shape = SubResource("CircleShape2D_31h1g")
+
+[node name="Can Consume Flash" type="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_oqxh5")
+}
 
 [connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]

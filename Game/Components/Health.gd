@@ -21,10 +21,10 @@ func RestoreHealth(heal : float):
 
 func ApplyDamage(attacker : Hitbox, damage : float):
 	print("Getting hit by ", damage)
-	on_hit.emit(attacker, self)
 	curHealth -= damage
 	PlayAnimation(hurtAnimation)
 	CheckDeath()
+	on_hit.emit(attacker, self)
 
 func CheckDeath():
 	if curHealth <= 0 and parent != null:

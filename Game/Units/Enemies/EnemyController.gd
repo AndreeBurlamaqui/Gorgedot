@@ -10,6 +10,7 @@ class_name EnemyController extends UnitController
 @export var focusArea : Area2D
 var focusTarget : Node2D # Just to get the direction mostly
 
+@export var _flash_animations : AnimationPlayer
 
 func _ready():
 	focusArea.area_entered.connect(on_enter_focus_area)
@@ -29,6 +30,10 @@ func GetAimDirection():
 
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.15, 0.5)
+	if GameManager.Player.can_consume(health) :
+		play_and_reset_flash("can_consume_flash")
+	else :
+		play_and_reset_flash("hit")
 
 func on_enter_focus_area(collision : Area2D):
 	# On entering the focus area
@@ -50,3 +55,8 @@ func _process(delta):
 func _draw():
 	if Engine.is_editor_hint():
 		draw_circle(Vector2.ZERO, AttackDistance, Color(1, 0, 0, 0.3))
+
+func play_and_reset_flash(animName : String):
+	_flash_animations.play(animName)
+	await _flash_animations.animation_finished
+	_flash_animations.play(&"RESET")
