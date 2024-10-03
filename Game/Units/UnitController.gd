@@ -20,30 +20,39 @@ class_name UnitController extends CharacterBody2D
 var currentAimDirection : Vector2
 var canAim := true
 var canMove := true
+var _last_impulse_force := Vector2.ZERO
+var _current_impulse_duration := 0.0
+var _last_impulse_duration := 0.0
 
 func _enter_tree():
 	bodyNode.texture = bodyVisual
 	bodyNode.scale = Vector2.ONE * bodyScale
 
-func _physics_process(delta):
-	# Calculate movement based on set direction
-	var moveDirection = GetMoveDirection()
-	if !canMove || moveDirection == Vector2.ZERO:
-		# Apply friction
-		var frictionAmount = moveFriction * delta
-		if velocity.length() > frictionAmount:
-			velocity -= velocity.normalized() * frictionAmount
-		else:
-			velocity = Vector2.ZERO
-	else:
-		# Apply accelerated movement
-		velocity += moveDirection * moveAcceleration * delta
-		velocity = velocity.limit_length(moveSpeed)
-	
+func _process(delta):
 	# Rotate towards aim
 	if canAim:
 		currentAimDirection = GetAimDirection()
 		look_at(currentAimDirection)
+
+func _physics_process(delta):
+	if _Is_Impulsed() :
+		var impulse_factor = ease(_current_impulse_duration / _last_impulse_duration, 0.25)
+		velocity = _last_impulse_force * delta * 50 * impulse_factor
+		_current_impulse_duration -= delta
+	else :
+		# Calculate movement based on set direction
+		var moveDirection = GetMoveDirection()
+		if !canMove || moveDirection == Vector2.ZERO:
+			# Apply friction
+			var frictionAmount = moveFriction * delta
+			if velocity.length() > frictionAmount:
+				velocity -= velocity.normalized() * frictionAmount
+			else:
+				velocity = Vector2.ZERO
+		else:
+			# Apply accelerated movement
+			velocity += moveDirection * moveAcceleration * delta
+			velocity = velocity.limit_length(moveSpeed)
 	
 	move_and_slide()
 
@@ -66,15 +75,26 @@ func TryDropAction():
 	currentWeapon.TryDrop(self)
 
 func ApplyImpulse(direction : Vector2, force : float):
-	velocity = direction.normalized() * force
-	move_and_slide()
-	
-func _on_hurtbox_on_hit(attacker : Hitbox, health : Health) -> void:
-	if health == null or attacker == null or !stunTimer.is_stopped():
+	if _Is_Impulsed():
 		pass
 	
+	# Based on force, create a duration
+	_last_impulse_duration = force * 0.00005
+	_current_impulse_duration = _last_impulse_duration
+	# Keep a specific velocity during this duration
+	_last_impulse_force = direction.normalized() * force
+	print(" {0} unit getting impulsed by {1} for {2} seconds".format([name, force, _last_impulse_duration]))
+
+func _Is_Impulsed() -> bool:
+	return _current_impulse_duration > 0
+
+func _on_hurtbox_on_hit(attacker : Hitbox, health : Health) -> void:
+	if health == null || attacker == null || !stunTimer.is_stopped():
+		pass
+	
+	# print(name, " unit getting hit")
 	var direction = global_position - attacker.holder.global_position
-	ApplyImpulse(direction, attacker.knockback)
+	ApplyImpulse(direction.normalized(), attacker.knockback)
 	# Block movement for a set time
 	canMove = false
 	stunTimer.start()

@@ -46,6 +46,8 @@ func on_exit_focus_area(collision : Area2D):
 func _process(delta):
 	if MovementType.GetMovement(self, focusTarget).length() < AttackDistance :
 		TryMainAction()
+	
+	super._process(delta)
 
 func _draw():
 	if Engine.is_editor_hint():

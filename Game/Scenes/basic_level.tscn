@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6ysh7sy6ft3o"]
+[gd_scene load_steps=11 format=3 uid="uid://c6ysh7sy6ft3o"]
 
 [ext_resource type="Texture2D" uid="uid://b8q2xl5qc5142" path="res://Art/Environment/crate.png" id="2_uomle"]
 [ext_resource type="Script" path="res://Game/Components/Health.gd" id="3_brnsa"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="4_gxqny"]
 [ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="7_thg4i"]
 [ext_resource type="PackedScene" uid="uid://31ww45ep24bk" path="res://Game/Units/Weapons/weapon_daggers.tscn" id="8_y60a4"]
-[ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="10_tycfk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yxcuq"]
 size = Vector2(120, 120)
@@ -54,6 +53,8 @@ metadata/_edit_horizontal_guides_ = [-704.0]
 
 [node name="Player" parent="." instance=ExtResource("3_sjj74")]
 safe_margin = 0.08
+_dash_stretch = null
+moveSpeed = null
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(12.9452, -0.995768)
@@ -105,10 +106,6 @@ scale = Vector2(1, 1)
 
 [node name="Daggers" parent="." instance=ExtResource("8_y60a4")]
 position = Vector2(465, 287)
-
-[node name="Enemy Unit" parent="." instance=ExtResource("10_tycfk")]
-position = Vector2(-693, -182)
-safe_margin = 0.08
 
 [node name="Pole" parent="." instance=ExtResource("7_thg4i")]
 position = Vector2(-131, 354)

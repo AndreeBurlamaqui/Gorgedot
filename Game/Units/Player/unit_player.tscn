@@ -5,7 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://h7j3b4wr3lg7" path="res://Art/Characters/green_hand.png" id="3_2b56o"]
 [ext_resource type="Script" path="res://Game/Components/InputAction.gd" id="3_qq5cb"]
 
-[node name="Player" node_paths=PackedStringArray("leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "stunTimer") instance=ExtResource("1_i1m5b")]
+[node name="Player" node_paths=PackedStringArray("leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "dashInput", "stunTimer") instance=ExtResource("1_i1m5b")]
+position = Vector2(-3, 12)
 scale = Vector2(1.00423, 1.00425)
 collision_layer = 16
 collision_mask = 49
@@ -16,6 +17,12 @@ upInput = NodePath("Inputs/Move Up")
 downInput = NodePath("Inputs/Move Down")
 mainActionInput = NodePath("Inputs/Main Action")
 dropInput = NodePath("Inputs/Drop Action")
+dashInput = NodePath("Inputs/Dash Action")
+_dashSpeed = 2500.0
+_dashAcceleration = 9000.0
+_dashDuration = 0.15
+_dash_stretch = 5.0
+moveSpeed = null
 stunTimer = NodePath("Stun")
 bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
@@ -51,5 +58,10 @@ action_name = "main_action"
 script = ExtResource("3_qq5cb")
 action_name = "drop_action"
 
+[node name="Dash Action" type="Node" parent="Inputs" index="6"]
+script = ExtResource("3_qq5cb")
+action_name = "dash_action"
+
 [connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
+[connection signal="OnInputPress" from="Inputs/Dash Action" to="." method="_on_dash_action_on_input_press"]

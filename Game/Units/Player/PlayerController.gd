@@ -9,6 +9,18 @@ class_name PlayerController extends UnitController
 @export var downInput : InputAction
 @export var mainActionInput : InputAction
 @export var dropInput : InputAction
+@export var dashInput : InputAction
+
+@export_group("DASH")
+@export var _dashSpeed := 700.0
+@export var _dashCooldown := 5.0
+@export var _dash_stretch = 1.5
+var _is_dashing : bool
+var _can_dash : bool
+
+var _motion := Vector2.ZERO
+var _last_motion := Vector2.RIGHT
+var _last_aim := Vector2.ZERO
 
 func _ready() -> void:
 	GameManager.Player = self
@@ -16,34 +28,62 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :
 		TryMainAction()
-		
+	
 	super._physics_process(delta)
 
+# INPUTS
 func GetMoveDirection():
-	var motion = Vector2()
+	if _is_dashing:
+		return _last_motion # Keep going in the same direction
+	
+	_motion = Vector2.ZERO
 	
 	if leftInput.is_pressed :
-		motion.x -= 1
+		_motion.x -= 1
 	
 	if rightInput.is_pressed :
-		motion.x += 1
+		_motion.x += 1
 	
 	if upInput.is_pressed :
-		motion.y -= 1
+		_motion.y -= 1
 	
 	if downInput.is_pressed :
-		motion.y += 1
+		_motion.y += 1
 	
-	return motion.normalized()
+	_motion = _motion.normalized()
+	
+	if _motion != Vector2.ZERO:
+		_last_motion = _motion
+	
+	return _motion
 
 func GetAimDirection():
+	if _is_dashing:
+		return _last_motion + global_position
+	
 	# TODO: Make it use input instead of just mouse
-	return get_global_mouse_position()
+	_last_aim = get_global_mouse_position()
+	return _last_aim
 
+# SIGNALS
 func _on_drop_action_on_input_press():
 	TryDropAction()
-
 
 func _on_health_hit(attacker, health):
 	TinyUtils.set_time_scale(0.05, 1.15)
 	CameraManager.Shake(10, 0.15)
+
+func _on_dash_action_on_input_press():
+	if _is_dashing or !_can_dash or !canMove or _Is_Impulsed():
+		pass
+	
+	_is_dashing = true
+	_can_dash = false
+	ApplyImpulse(_last_motion, _dashSpeed)
+	var ogScale = bodyNode.scale
+	bodyNode.scale = Vector2(_dash_stretch, ogScale.y)
+	await get_tree().create_tween().tween_property(
+		bodyNode, "scale", ogScale, _current_impulse_duration).finished
+	_is_dashing = false
+	await get_tree().create_timer(_dashCooldown)
+	_can_dash = true
