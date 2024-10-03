@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bq6ya0ht6vguf"]
+[gd_scene load_steps=5 format=3 uid="uid://bq6ya0ht6vguf"]
 
 [ext_resource type="Texture2D" uid="uid://ctf2al4jbvqoa" path="res://Art/Items/weapon_axe_large.png" id="1_cgqpb"]
 [ext_resource type="Script" path="res://Game/Components/GameHud.gd" id="1_jjgy7"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_cnibg"]
+[ext_resource type="Texture2D" uid="uid://3qilrmp2quel" path="res://Art/Environment/puddle.png" id="2_o0w58"]
+[ext_resource type="LabelSettings" uid="uid://bilmq7blhhyhi" path="res://Art/UI/label_settings.tres" id="3_vg152"]
 
 [node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar")]
 script = ExtResource("1_jjgy7")
-_goop_bar = NodePath("Goop/ProgressBar")
+_goop_bar = NodePath("Goop/VBoxContainer/HBoxContainer/ProgressBar")
 metadata/_edit_horizontal_guides_ = [15.0]
 metadata/_edit_vertical_guides_ = [945.0, 15.0]
 
@@ -19,33 +19,193 @@ offset_top = 15.0
 offset_right = 304.0
 offset_bottom = 57.0
 
-[node name="Panel" type="Panel" parent="Goop"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Goop"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 55.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="Goop"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Goop/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Goop/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_o0w58")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="ProgressBar" type="ProgressBar" parent="Goop/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 57.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Goop/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="Goop/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Goop/VBoxContainer/HBoxContainer2/Control2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 11.0
+offset_right = -39.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 value = 57.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Goop/VBoxContainer/HBoxContainer2/Control2"]
+layout_mode = 1
+offset_left = 16.0
+offset_right = 60.0
+offset_bottom = 26.0
+text = "Shift"
+label_settings = ExtResource("3_vg152")
+uppercase = true
+
+[node name="Control3" type="Control" parent="Goop/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Goop/VBoxContainer/HBoxContainer2/Control3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 11.0
+offset_right = -39.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+value = 57.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Goop/VBoxContainer/HBoxContainer2/Control3"]
+layout_mode = 1
+offset_left = 16.0
+offset_right = 60.0
+offset_bottom = 26.0
+text = "Ctrl"
+label_settings = ExtResource("3_vg152")
+uppercase = true
 
 [node name="Stomach" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -308.0
-offset_top = 19.0
-offset_right = -16.0
-offset_bottom = 88.0
+offset_left = -310.0
+offset_top = 16.0
+offset_right = -18.0
+offset_bottom = 85.0
 grow_horizontal = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Stomach"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Panel4" type="Panel" parent="Stomach/HBoxContainer2"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel3" type="Panel" parent="Stomach/HBoxContainer2/Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Q"
+label_settings = ExtResource("3_vg152")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Panel5" type="Panel" parent="Stomach/HBoxContainer2"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel5"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "holding"
+label_settings = ExtResource("3_vg152")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Panel" type="Panel" parent="Stomach/HBoxContainer2/Panel5"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 7.0
+grow_horizontal = 2
+
+[node name="Panel6" type="Panel" parent="Stomach/HBoxContainer2"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel2" type="Panel" parent="Stomach/HBoxContainer2/Panel6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "E"
+label_settings = ExtResource("3_vg152")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Stomach"]
 layout_mode = 1
@@ -108,78 +268,3 @@ pivot_offset = Vector2(50, 35)
 texture = ExtResource("1_cgqpb")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Stomach"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 3.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 0
-alignment = 1
-
-[node name="Panel4" type="Panel" parent="Stomach/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Q"
-label_settings = SubResource("LabelSettings_cnibg")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-uppercase = true
-
-[node name="Panel5" type="Panel" parent="Stomach/HBoxContainer2"]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel5"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "holding"
-label_settings = SubResource("LabelSettings_cnibg")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-uppercase = true
-
-[node name="Panel" type="Panel" parent="Stomach/HBoxContainer2/Panel5"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 7.0
-grow_horizontal = 2
-
-[node name="Panel6" type="Panel" parent="Stomach/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Stomach/HBoxContainer2/Panel6"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "E"
-label_settings = SubResource("LabelSettings_cnibg")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-uppercase = true
