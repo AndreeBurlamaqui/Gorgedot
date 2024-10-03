@@ -13,6 +13,7 @@ class_name PlayerController extends UnitController
 @export var mainActionInput : InputAction
 @export var dropInput : InputAction
 @export var dashInput : InputAction
+@export var consumeInput : InputAction
 
 @export_group("DASH")
 @export var _dashSpeed := 700.0
@@ -21,6 +22,10 @@ class_name PlayerController extends UnitController
 @export var _dash_cost = 5
 var _is_dashing := false
 var _can_dash := true
+signal dash
+
+@export_group("CONSUME")
+@export_range(0, 1, 0.05) var _consume_threshold := 0.15 # In percent
 
 var _motion := Vector2.ZERO
 var _last_motion := Vector2.RIGHT
@@ -87,10 +92,9 @@ func _on_dash_action_on_input_press():
 	ApplyImpulse(_last_motion, _dashSpeed)
 	var ogScale = bodyNode.scale
 	bodyNode.scale = Vector2(_dash_stretch, ogScale.y)
+	dash.emit()
 	await get_tree().create_tween().tween_property(
 		bodyNode, "scale", ogScale, _current_impulse_duration).finished
 	_is_dashing = false
-	print("Started dash cooldown")
 	await get_tree().create_timer(_dashCooldown).timeout
-	print("Completed dash cooldown")
 	_can_dash = true

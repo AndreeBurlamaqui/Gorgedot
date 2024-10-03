@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Game/Components/InputAction.gd" id="3_qq5cb"]
 [ext_resource type="Script" path="res://Game/Units/Player/GoopController.gd" id="5_ibuwr"]
 
-[node name="Player" node_paths=PackedStringArray("goop", "leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "dashInput", "stunTimer") instance=ExtResource("1_i1m5b")]
+[node name="Player" node_paths=PackedStringArray("goop", "leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "dashInput", "consumeInput", "stunTimer") instance=ExtResource("1_i1m5b")]
 position = Vector2(-3, 12)
 scale = Vector2(1.00423, 1.00425)
 collision_layer = 16
@@ -20,10 +20,12 @@ downInput = NodePath("Inputs/Move Down")
 mainActionInput = NodePath("Inputs/Main Action")
 dropInput = NodePath("Inputs/Drop Action")
 dashInput = NodePath("Inputs/Dash Action")
+consumeInput = NodePath("Inputs/Consume Action")
 _dashSpeed = 3000.0
-_dashCooldown = 5.0
-_dash_stretch = 5.0
+_dashCooldown = 0.5
+_dash_stretch = 3.0
 _dash_cost = 5
+_consume_threshold = 0.15
 stunTimer = NodePath("Stun")
 bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
@@ -63,6 +65,10 @@ action_name = "drop_action"
 script = ExtResource("3_qq5cb")
 action_name = "dash_action"
 
+[node name="Consume Action" type="Node" parent="Inputs" index="7"]
+script = ExtResource("3_qq5cb")
+action_name = "consume_action"
+
 [node name="GoopController" type="Node" parent="." index="5" node_paths=PackedStringArray("health")]
 script = ExtResource("5_ibuwr")
 health = NodePath("../Hurtbox")
@@ -70,3 +76,4 @@ health = NodePath("../Hurtbox")
 [connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Dash Action" to="." method="_on_dash_action_on_input_press"]
+[connection signal="OnInputPress" from="Inputs/Consume Action" to="." method="_on_dash_action_on_input_press"]
