@@ -78,8 +78,8 @@ func _on_health_hit(attacker, health):
 	CameraManager.Shake(10, 0.15)
 
 func _on_dash_action_on_input_press():
-	if _is_dashing or !_can_dash or !canMove or _Is_Impulsed():
-		pass
+	if _is_dashing or not _can_dash or not canMove or _Is_Impulsed():
+		return
 	
 	_is_dashing = true
 	_can_dash = false
@@ -90,5 +90,7 @@ func _on_dash_action_on_input_press():
 	await get_tree().create_tween().tween_property(
 		bodyNode, "scale", ogScale, _current_impulse_duration).finished
 	_is_dashing = false
-	await get_tree().create_timer(_dashCooldown)
+	print("Started dash cooldown")
+	await get_tree().create_timer(_dashCooldown).timeout
+	print("Completed dash cooldown")
 	_can_dash = true
