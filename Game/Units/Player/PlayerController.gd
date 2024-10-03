@@ -19,8 +19,8 @@ class_name PlayerController extends UnitController
 @export var _dashCooldown := 5.0
 @export var _dash_stretch = 1.5
 @export var _dash_cost = 5
-var _is_dashing : bool
-var _can_dash : bool
+var _is_dashing := false
+var _can_dash := true
 
 var _motion := Vector2.ZERO
 var _last_motion := Vector2.RIGHT
