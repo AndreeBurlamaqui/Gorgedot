@@ -1,6 +1,7 @@
 class_name Health extends Area2D
 
 @export_group("COMPONENTS")
+@export var parent : Node
 @export var animator : AnimationPlayer
 
 @export_group("VALUES")
@@ -26,8 +27,9 @@ func ApplyDamage(attacker : Hitbox, damage : float):
 	CheckDeath()
 
 func CheckDeath():
-	if curHealth <= 0:
-		queue_free()
+	if curHealth <= 0 and parent != null:
+		# await get_tree().process_frame # Wait frame so that signal is sent
+		parent.queue_free()
 
 func PlayAnimation(animName : String):
 	if animator == null:

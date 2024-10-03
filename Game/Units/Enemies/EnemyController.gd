@@ -29,8 +29,6 @@ func GetAimDirection():
 
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.15, 0.5)
-	if health.curHealth <= 0:
-		queue_free()
 
 func on_enter_focus_area(collision : Area2D):
 	# On entering the focus area
