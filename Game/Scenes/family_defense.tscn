@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d26mt0tdo0u5k"]
+[gd_scene load_steps=19 format=3 uid="uid://d26mt0tdo0u5k"]
 
 [ext_resource type="Script" path="res://Game/Components/Camera.gd" id="1_i6vx7"]
 [ext_resource type="Script" path="res://Game/Units/Player/family_nexus.gd" id="2_50mvr"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://q6p71erhbfr7" path="res://Game/Units/Enemies/example_enemy_unit.tscn" id="7_wx2h3"]
 [ext_resource type="PackedScene" uid="uid://dk8jaqbm1ms48" path="res://Game/Units/Weapons/weapon_pole.tscn" id="8_p0of0"]
 [ext_resource type="PackedScene" uid="uid://ck1j3ahoidavh" path="res://Game/Units/Weapons/weapon_sword.tscn" id="9_lvhu5"]
+[ext_resource type="PackedScene" uid="uid://bq6ya0ht6vguf" path="res://Game/Scenes/game_hud.tscn" id="12_ae74p"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2mxbh"]
 friction = 0.0
@@ -55,7 +56,8 @@ position = Vector2(6, 174)
 platform_on_leave = 0
 platform_floor_layers = 4294967295
 safe_margin = 0.015
-moveSpeed = null
+_dash_cost = 5
+moveSpeed = 500.0
 
 [node name="Family" type="Node2D" parent="." node_paths=PackedStringArray("hp_bar", "hurtbox")]
 script = ExtResource("2_50mvr")
@@ -137,5 +139,7 @@ weapons = Array[PackedScene]([ExtResource("7_hgnyu"), ExtResource("8_p0of0"), Ex
 camera = NodePath("../Camera2D")
 difficultyCurve = SubResource("Curve_1qryp")
 startDelay = 5.0
+
+[node name="Game HUD" parent="." instance=ExtResource("12_ae74p")]
 
 [connection signal="on_hit" from="Family/Health" to="Family" method="_on_health_on_hit"]

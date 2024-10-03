@@ -53,8 +53,9 @@ metadata/_edit_horizontal_guides_ = [-704.0]
 
 [node name="Player" parent="." instance=ExtResource("3_sjj74")]
 safe_margin = 0.08
-_dash_stretch = null
-moveSpeed = null
+_dash_stretch = 1.5
+_dash_cost = 5
+moveSpeed = 500.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(12.9452, -0.995768)

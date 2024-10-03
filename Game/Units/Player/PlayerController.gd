@@ -2,6 +2,9 @@ class_name PlayerController extends UnitController
 # Extending from the Unit Controller to works as a brain
 # Will literally control the Unit based on inputs
 
+@export_group("COMPONENTS")
+@export var goop : GoopController
+
 @export_group("INPUTS")
 @export var leftInput : InputAction
 @export var rightInput : InputAction
@@ -15,6 +18,7 @@ class_name PlayerController extends UnitController
 @export var _dashSpeed := 700.0
 @export var _dashCooldown := 5.0
 @export var _dash_stretch = 1.5
+@export var _dash_cost = 5
 var _is_dashing : bool
 var _can_dash : bool
 
@@ -22,7 +26,7 @@ var _motion := Vector2.ZERO
 var _last_motion := Vector2.RIGHT
 var _last_aim := Vector2.ZERO
 
-func _ready() -> void:
+func _enter_tree():
 	GameManager.Player = self
 
 func _physics_process(delta: float) -> void:
@@ -79,6 +83,7 @@ func _on_dash_action_on_input_press():
 	
 	_is_dashing = true
 	_can_dash = false
+	goop.reduce(_dash_cost)
 	ApplyImpulse(_last_motion, _dashSpeed)
 	var ogScale = bodyNode.scale
 	bodyNode.scale = Vector2(_dash_stretch, ogScale.y)
