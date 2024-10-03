@@ -123,6 +123,7 @@ scale = Vector2(1, 1)
 hitAnimation = "goop_projectile/on_hit"
 
 [node name="Visual" parent="." index="0"]
+position = Vector2(51, 0)
 scale = Vector2(0.5, 1)
 texture = ExtResource("2_ororh")
 
