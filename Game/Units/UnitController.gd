@@ -76,7 +76,7 @@ func TryDropAction():
 
 func ApplyImpulse(direction : Vector2, force : float):
 	if _Is_Impulsed():
-		pass
+		return
 	
 	# Based on force, create a duration
 	_last_impulse_duration = force * 0.00005
@@ -89,8 +89,11 @@ func _Is_Impulsed() -> bool:
 	return _current_impulse_duration > 0
 
 func _on_hurtbox_on_hit(attacker : Hitbox, health : Health) -> void:
-	if health == null || attacker == null || !stunTimer.is_stopped():
-		pass
+	if health == null or attacker == null or !stunTimer.is_stopped():
+		return
+	
+	#if is_queued_for_deletion() or attacker.is_queued_for_deletion() :
+	#	return
 	
 	# print(name, " unit getting hit")
 	var direction = global_position - attacker.holder.global_position
