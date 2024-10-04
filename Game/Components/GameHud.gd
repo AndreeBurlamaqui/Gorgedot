@@ -52,7 +52,8 @@ func _on_enemy_consumed() :
 func _on_score_changed(newScore : int) :
 	_score_label.text = str(newScore).pad_zeros(10)
 
-func _on_game_ended(state : GameManager.EndState):
+func _on_game_ended(state : GameManager.GameState):
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_game_over_screen.visible = true
 
 func _on_restart_click() :

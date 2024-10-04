@@ -11,6 +11,7 @@ class_name Health extends Area2D
 var curHealth : float
 
 signal on_hit (attacker : Hitbox, health : Health)
+signal on_death
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,9 +28,10 @@ func ApplyDamage(attacker : Hitbox, damage : float):
 	CheckDeath()
 
 func CheckDeath():
-	if curHealth <= 0 and parent != null:
-		# await get_tree().process_frame # Wait frame so that signal is sent
-		parent.queue_free()
+	if curHealth <= 0:
+		on_death.emit()
+		if parent != null :
+			parent.queue_free()
 
 func PlayAnimation(animName : String):
 	if animator == null:

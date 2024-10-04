@@ -96,9 +96,6 @@ func _on_drop_action_on_input_press():
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.05, 1.15)
 	CameraManager.Shake(10, 0.15)
-	
-	if health.curHealth <= 0 :
-		GameManager.end_game(GameManager.EndState.PLAYER_DEAD)
 
 func _on_dash_action_on_input_press():
 	if _is_dashing or not _can_dash or not canMove or _Is_Impulsed():

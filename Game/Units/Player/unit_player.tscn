@@ -14,8 +14,8 @@ script = ExtResource("7_sb3n6")
 projectile = ExtResource("7_kx1iw")
 damage = 0.0
 amount = 1.0
-angle = Vector2(0, 0)
-randomAngle = false
+angle = Vector2(-35, 35)
+randomAngle = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r2khi"]
 radius = 250.0
@@ -47,9 +47,10 @@ stunTimer = NodePath("Stun")
 bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
 
-[node name="Hurtbox" parent="." index="2"]
+[node name="Hurtbox" parent="." index="2" node_paths=PackedStringArray("parent")]
 collision_layer = 18
 collision_mask = 34
+parent = NodePath("..")
 maxHealth = 500.0
 
 [node name="Inputs" type="Node" parent="." index="3"]
@@ -95,6 +96,9 @@ goop_weapon = NodePath("Ranged Weapon")
 position = Vector2(0, -7.62939e-06)
 scale = Vector2(1, 1)
 projectiles = Array[ExtResource("7_sb3n6")]([SubResource("Resource_us84q")])
+
+[node name="Timer" parent="GoopController/Ranged Weapon" index="0"]
+wait_time = 0.2
 
 [node name="DropRaycast" parent="GoopController/Ranged Weapon" index="2"]
 visible = false
