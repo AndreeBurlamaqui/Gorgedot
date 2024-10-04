@@ -125,7 +125,7 @@ func _on_consume_action_on_input_press():
 	_is_checking_consume = true
 	
 	# Then check if they can be consumed
-	for index in _possible_enemies_consumable.size() :
+	for index in range(_possible_enemies_consumable.size() - 1, -1, -1):
 		var enemy = _possible_enemies_consumable[index]
 		if not is_valid_enemy_to_consume(enemy) :
 			# Just ignore, it'll be removed after an enemy is killed
