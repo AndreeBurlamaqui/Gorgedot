@@ -30,10 +30,9 @@ func GetAimDirection():
 
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.15, 0.5)
+	await play_and_reset_flash("hit")
 	if GameManager.Player.can_consume(health) :
 		play_and_reset_flash("can_consume_flash")
-	else :
-		play_and_reset_flash("hit")
 
 func on_enter_focus_area(collision : Area2D):
 	# On entering the focus area
@@ -52,11 +51,8 @@ func _process(delta):
 	
 	super._process(delta)
 
-func _draw():
-	if Engine.is_editor_hint():
-		draw_circle(Vector2.ZERO, AttackDistance, Color(1, 0, 0, 0.3))
-
-func play_and_reset_flash(animName : String):
+func play_and_reset_flash(animName : String) -> Signal:
 	_flash_animations.play(animName)
 	await _flash_animations.animation_finished
 	_flash_animations.play(&"RESET")
+	return get_tree().process_frame
