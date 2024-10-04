@@ -4,6 +4,7 @@ extends CanvasLayer
 @export var _dash_bar : ProgressBar
 @export var _consume_bar : ProgressBar
 @export var _score_label : Label
+@export var _game_over_screen : Control
 
 func _ready():
 	GameManager.Player.goop.on_update.connect(_on_goop_update)
@@ -11,6 +12,7 @@ func _ready():
 	GameManager.Player.enemies_consumable_changed.connect(_on_enemies_to_consume_chaged)
 	GameManager.Player.consuming_enemy.connect(_on_enemy_consumed)
 	GameManager.score_changed.connect(_on_score_changed)
+	GameManager.game_ended.connect(_on_game_ended)
 	_on_score_changed (0)
 	_on_goop_update(GameManager.Player.goop._max_goop, GameManager.Player.goop.cur_goop)
 	_dash_bar.min_value = 0
@@ -19,6 +21,7 @@ func _ready():
 	_consume_bar.max_value = 1
 	_consume_bar.min_value = 0
 	_consume_bar.value = 0
+	_game_over_screen.visible = false
 
 func free():
 	GameManager.Player.goop.on_update.disconnect(_on_goop_update)
@@ -48,3 +51,9 @@ func _on_enemy_consumed() :
 
 func _on_score_changed(newScore : int) :
 	_score_label.text = str(newScore).pad_zeros(10)
+
+func _on_game_ended(state : GameManager.EndState):
+	_game_over_screen.visible = true
+
+func _on_restart_click() :
+	GameManager.restart_game()

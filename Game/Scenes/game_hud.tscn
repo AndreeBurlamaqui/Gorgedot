@@ -3,16 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://ctf2al4jbvqoa" path="res://Art/Items/weapon_axe_large.png" id="1_cgqpb"]
 [ext_resource type="Script" path="res://Game/Components/GameHud.gd" id="1_jjgy7"]
 [ext_resource type="Texture2D" uid="uid://3qilrmp2quel" path="res://Art/Environment/puddle.png" id="2_o0w58"]
-[ext_resource type="LabelSettings" uid="uid://bilmq7blhhyhi" path="res://Art/UI/label_settings.tres" id="3_vg152"]
+[ext_resource type="Theme" uid="uid://dic0hjorgbpq2" path="res://Art/UI/ui_theme.tres" id="3_75agm"]
 
-[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label")]
+[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label", "_game_over_screen")]
 script = ExtResource("1_jjgy7")
 _goop_bar = NodePath("Goop/VBoxContainer/Goop bar/ProgressBar")
 _dash_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Dash Bar/ProgressBar")
 _consume_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Consume Bar/ProgressBar")
-_score_label = NodePath("Control/HBoxContainer/Label2")
+_score_label = NodePath("Score/HBoxContainer/Label2")
+_game_over_screen = NodePath("Game Over")
 metadata/_edit_horizontal_guides_ = [15.0, 525.0]
-metadata/_edit_vertical_guides_ = [945.0, 15.0]
+metadata/_edit_vertical_guides_ = [945.0, 15.0, 481.0]
 
 [node name="Goop" type="Control" parent="."]
 layout_mode = 3
@@ -73,8 +74,8 @@ layout_mode = 1
 offset_left = 16.0
 offset_right = 60.0
 offset_bottom = 26.0
+theme = ExtResource("3_75agm")
 text = "Shift"
-label_settings = ExtResource("3_vg152")
 uppercase = true
 
 [node name="Consume Bar" type="Control" parent="Goop/VBoxContainer/HBoxContainer2"]
@@ -103,8 +104,8 @@ layout_mode = 1
 offset_left = 16.0
 offset_right = 60.0
 offset_bottom = 26.0
+theme = ExtResource("3_75agm")
 text = "Ctrl"
-label_settings = ExtResource("3_vg152")
 uppercase = true
 
 [node name="Stomach" type="Control" parent="."]
@@ -151,8 +152,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_75agm")
 text = "Q"
-label_settings = ExtResource("3_vg152")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -171,8 +172,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_75agm")
 text = "holding"
-label_settings = ExtResource("3_vg152")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -205,8 +206,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_75agm")
 text = "E"
-label_settings = ExtResource("3_vg152")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -274,7 +275,7 @@ texture = ExtResource("1_cgqpb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Control" type="Control" parent="."]
+[node name="Score" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
@@ -285,7 +286,7 @@ offset_right = 327.0
 offset_bottom = -16.0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Score"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -293,12 +294,63 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Control/HBoxContainer"]
+[node name="Label" type="Label" parent="Score/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_75agm")
 text = "Score:"
-label_settings = ExtResource("3_vg152")
+uppercase = true
 
-[node name="Label2" type="Label" parent="Control/HBoxContainer"]
+[node name="Label2" type="Label" parent="Score/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_75agm")
 text = "88888"
-label_settings = ExtResource("3_vg152")
+
+[node name="Game Over" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Game Over"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Game Over"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -84.0
+offset_top = -155.0
+offset_right = 86.0
+offset_bottom = -113.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_75agm")
+text = "GO BACK TO SLEEP"
+
+[node name="Label" type="Label" parent="Game Over"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 154.0
+offset_right = 843.0
+offset_bottom = 327.0
+theme = ExtResource("3_75agm")
+text = "I woke up with a start, looking around to see that everyone is still here.
+
+\"Ah, thank the gods it was just a nightmare...
+I'm still having goopbumps, but I need to try to rest\""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[connection signal="pressed" from="Game Over/Button" to="." method="_on_restart_click"]

@@ -22,3 +22,5 @@ func reset_health():
 
 func _on_health_on_hit(attacker : Hitbox, health : Health):
 	hp_bar.value = health.curHealth
+	if health.curHealth <= 0 :
+		GameManager.end_game(GameManager.EndState.FAMILY_DEAD)
