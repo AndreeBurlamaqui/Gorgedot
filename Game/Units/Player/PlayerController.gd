@@ -122,11 +122,10 @@ func _on_consume_action_on_input_press():
 	_is_checking_consume = true
 	
 	# Then check if they can be consumed
-	var every_consumed_index : Array[int]
 	for index in _possible_enemies_consumable.size() :
 		var enemy = _possible_enemies_consumable[index]
-		if not is_valid_enemy_to_consume(enemy) : # If it's null, then remove after this
-			every_consumed_index.append(index)
+		if not is_valid_enemy_to_consume(enemy) :
+			# Just ignore, it'll be removed after an enemy is killed
 			continue
 		
 		if not can_consume(enemy) :
@@ -136,9 +135,10 @@ func _on_consume_action_on_input_press():
 			continue
 		
 		# This enemy will be consumed
-		every_consumed_index.append(index)
 		_last_aim = global_position - enemy.global_position
 		enemy.ApplyDamage(null, enemy.curHealth)
+		GameManager.add_score(_consume_recover) # extra score for consume
+		goop.add(_consume_recover)
 		canMove = false
 		_is_consuming = true
 		consuming_enemy.emit()
@@ -148,27 +148,33 @@ func _on_consume_action_on_input_press():
 		consumeTween.tween_property(self, "global_position", enemy.global_position, 0.15)
 		consumeTween.tween_property(bodyNode, "scale", ogScale, 0.15)
 		await consumeTween.finished
-		goop.add(_consume_recover)
 		canMove = true
 		_is_consuming = false
 		# Don't break, lets make a option of consuming everyone in range
-	
-	if not every_consumed_index.is_empty() :
-		for consumed_index in every_consumed_index :
-			_possible_enemies_consumable.remove_at(consumed_index)
-		# Now that they are removed. Emit changes
-		await get_tree().process_frame
-		enemies_consumable_changed.emit(_possible_enemies_consumable)
+
 	_is_checking_consume = false
 
 func can_consume(unit : Health) -> bool :
 	var percentage = unit.curHealth / unit.maxHealth
 	print("Check consume: " , percentage)
-	var below_threshold = percentage <= _consume_threshold
+	# Check threhsold, but ignore already dead enemies
+	var below_threshold = percentage > 0 and percentage <= _consume_threshold
+	
+	var possible_enemies_changed = false
 	
 	if below_threshold and not _possible_enemies_consumable.has(unit):
+		print("Adding enemy to possible consume")
 		_possible_enemies_consumable.append(unit)
-		enemies_consumable_changed.emit(_possible_enemies_consumable)
+		possible_enemies_changed = true
+	
+	# Clean invalid enemies
+	for e in range(_possible_enemies_consumable.size() - 1, -1, -1):
+		var enemy = _possible_enemies_consumable[e]
+		if not is_valid_enemy_to_consume(enemy):
+			_possible_enemies_consumable.remove_at(e)
+			possible_enemies_changed = true
+	
+	enemies_consumable_changed.emit(_possible_enemies_consumable)
 	
 	return below_threshold
 
@@ -178,5 +184,17 @@ func is_valid_enemy_to_consume(enemy) -> bool :
 
 	if enemy.is_queued_for_deletion() :
 		return false
+	
+	if enemy is Health :
+		var enemy_health : Health = enemy
+		if enemy_health.curHealth <= 0 :
+			return false # Already dead, can't consume
+		
+		var parentEnemy = enemy_health.parent # Parent is tagged for deletion before children
+		if parentEnemy == null or not is_instance_valid(parentEnemy) :
+			return false
+		
+		if parentEnemy.is_queued_for_deletion() :
+			return false
 	
 	return true

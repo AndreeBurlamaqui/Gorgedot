@@ -5,11 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://3qilrmp2quel" path="res://Art/Environment/puddle.png" id="2_o0w58"]
 [ext_resource type="LabelSettings" uid="uid://bilmq7blhhyhi" path="res://Art/UI/label_settings.tres" id="3_vg152"]
 
-[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar")]
+[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label")]
 script = ExtResource("1_jjgy7")
 _goop_bar = NodePath("Goop/VBoxContainer/Goop bar/ProgressBar")
 _dash_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Dash Bar/ProgressBar")
 _consume_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Consume Bar/ProgressBar")
+_score_label = NodePath("Control/HBoxContainer/Label2")
 metadata/_edit_horizontal_guides_ = [15.0, 525.0]
 metadata/_edit_vertical_guides_ = [945.0, 15.0]
 

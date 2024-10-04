@@ -31,9 +31,15 @@ func GetAimDirection():
 
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.15, 0.5)
+	
+	if health.curHealth <= 0 :
+		GameManager.add_score(health.maxHealth)
+	
+	var can_player_consume_self = GameManager.Player.can_consume(health)
 	await play_and_reset_flash("hit")
-	if GameManager.Player.can_consume(health) :
+	if can_player_consume_self :
 		play_and_reset_flash("can_consume_flash")
+	
 
 func on_enter_focus_area(collision : Area2D):
 	# On entering the focus area
