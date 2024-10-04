@@ -26,6 +26,14 @@ signal dash
 
 @export_group("CONSUME")
 @export_range(0, 1, 0.05) var _consume_threshold := 0.15 # In percent
+@export var _consume_area := 250
+@export var _consume_cooldown := 0.75
+@export var _consume_recover = 5.0
+var _is_consuming := false
+var _is_checking_consume := false
+var _possible_enemies_consumable : Array[Health]
+signal enemies_consumable_changed (enemies : Array[Health])
+signal consuming_enemy
 
 var _motion := Vector2.ZERO
 var _last_motion := Vector2.RIGHT
@@ -74,6 +82,9 @@ func GetAimDirection():
 	if _is_dashing:
 		return _last_motion + global_position
 	
+	if _is_consuming :
+		return _last_aim
+	
 	# TODO: Make it use input instead of just mouse
 	_last_aim = get_global_mouse_position()
 	return _last_aim
@@ -103,7 +114,69 @@ func _on_dash_action_on_input_press():
 	await get_tree().create_timer(_dashCooldown).timeout
 	_can_dash = true
 
+
+func _on_consume_action_on_input_press():
+	if _possible_enemies_consumable.is_empty() or _is_checking_consume:
+		return
+	
+	_is_checking_consume = true
+	
+	# Then check if they can be consumed
+	var every_consumed_index : Array[int]
+	for index in _possible_enemies_consumable.size() :
+		var enemy = _possible_enemies_consumable[index]
+		if not is_valid_enemy_to_consume(enemy) : # If it's null, then remove after this
+			every_consumed_index.append(index)
+			continue
+		
+		if not can_consume(enemy) :
+			continue
+		
+		if not TinyMath.is_in_range(global_position, enemy.global_position, _consume_area) :
+			continue
+		
+		# This enemy will be consumed
+		every_consumed_index.append(index)
+		_last_aim = global_position - enemy.global_position
+		enemy.ApplyDamage(null, enemy.curHealth)
+		canMove = false
+		_is_consuming = true
+		consuming_enemy.emit()
+		var ogScale = bodyNode.scale
+		bodyNode.scale = Vector2(_dash_stretch, ogScale.y * 2)
+		var consumeTween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		consumeTween.tween_property(self, "global_position", enemy.global_position, 0.15)
+		consumeTween.tween_property(bodyNode, "scale", ogScale, 0.15)
+		await consumeTween.finished
+		goop.add(_consume_recover)
+		canMove = true
+		_is_consuming = false
+		# Don't break, lets make a option of consuming everyone in range
+	
+	if not every_consumed_index.is_empty() :
+		for consumed_index in every_consumed_index :
+			_possible_enemies_consumable.remove_at(consumed_index)
+		# Now that they are removed. Emit changes
+		await get_tree().process_frame
+		enemies_consumable_changed.emit(_possible_enemies_consumable)
+	_is_checking_consume = false
+
 func can_consume(unit : Health) -> bool :
 	var percentage = unit.curHealth / unit.maxHealth
 	print("Check consume: " , percentage)
-	return percentage <= _consume_threshold
+	var below_threshold = percentage <= _consume_threshold
+	
+	if below_threshold and not _possible_enemies_consumable.has(unit):
+		_possible_enemies_consumable.append(unit)
+		enemies_consumable_changed.emit(_possible_enemies_consumable)
+	
+	return below_threshold
+
+func is_valid_enemy_to_consume(enemy) -> bool :
+	if enemy == null or not is_instance_valid(enemy) :
+		return false
+
+	if enemy.is_queued_for_deletion() :
+		return false
+	
+	return true

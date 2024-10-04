@@ -7,17 +7,18 @@ class_name WeaponRanged
 func _ready() -> void:
 	super._ready()
 
-func TryUse(user : UnitController):
+func TryUse(user : UnitController) -> bool :
 	# Check if can do the main action
 	if !cooldownTimer.is_stopped():
-		return
+		return false
 	
 	# Instantiate the current projectile towards aim/unit rotation
 	if projectiles.size() <= 0:
-		return
+		return false
 	
 	for proj in projectiles:
 		proj.Shoot(self, unitOwner)
 	
 	# Add cooldown
 	cooldownTimer.start()
+	return true

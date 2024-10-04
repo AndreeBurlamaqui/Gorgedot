@@ -10,7 +10,7 @@ script = ExtResource("1_jjgy7")
 _goop_bar = NodePath("Goop/VBoxContainer/Goop bar/ProgressBar")
 _dash_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Dash Bar/ProgressBar")
 _consume_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Consume Bar/ProgressBar")
-metadata/_edit_horizontal_guides_ = [15.0]
+metadata/_edit_horizontal_guides_ = [15.0, 525.0]
 metadata/_edit_vertical_guides_ = [945.0, 15.0]
 
 [node name="Goop" type="Control" parent="."]
@@ -82,6 +82,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ProgressBar" type="ProgressBar" parent="Goop/VBoxContainer/HBoxContainer2/Consume Bar"]
+modulate = Color(1, 0.113725, 0.368627, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,6 +107,7 @@ label_settings = ExtResource("3_vg152")
 uppercase = true
 
 [node name="Stomach" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -270,3 +272,32 @@ pivot_offset = Vector2(50, 35)
 texture = ExtResource("1_cgqpb")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -42.0
+offset_right = 327.0
+offset_bottom = -16.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "Score:"
+label_settings = ExtResource("3_vg152")
+
+[node name="Label2" type="Label" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "88888"
+label_settings = ExtResource("3_vg152")

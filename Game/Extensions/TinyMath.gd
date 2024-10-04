@@ -21,3 +21,7 @@ static func pick(condition : bool, trueReturn, falseReturn):
 
 static func rotation_to_direction(rotation):
 	return Vector2(cos(rotation), sin(rotation))
+
+static func is_in_range(source: Vector2, target: Vector2, range: float) -> bool:
+	var distance = source.distance_to(target)
+	return distance <= range

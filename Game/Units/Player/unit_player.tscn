@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cb4fxg1qk7i5g"]
+[gd_scene load_steps=11 format=3 uid="uid://cb4fxg1qk7i5g"]
 
 [ext_resource type="PackedScene" uid="uid://btuolqcayirgb" path="res://Game/Units/general_unit.tscn" id="1_i1m5b"]
 [ext_resource type="Script" path="res://Game/Units/Player/PlayerController.gd" id="2_4ayog"]
@@ -16,6 +16,9 @@ damage = 0.0
 amount = 1.0
 angle = Vector2(0, 0)
 randomAngle = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r2khi"]
+radius = 250.0
 
 [node name="Player" node_paths=PackedStringArray("goop", "leftInput", "rightInput", "upInput", "downInput", "mainActionInput", "dropInput", "dashInput", "consumeInput", "stunTimer") instance=ExtResource("1_i1m5b")]
 position = Vector2(-3, 12)
@@ -37,6 +40,9 @@ _dashCooldown = 0.5
 _dash_stretch = 3.0
 _dash_cost = 5
 _consume_threshold = 0.5
+_consume_area = 250
+_consume_cooldown = 0.75
+_consume_recover = 15.0
 stunTimer = NodePath("Stun")
 bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
@@ -102,9 +108,17 @@ collision_mask = 32
 [node name="Tip Position" parent="GoopController/Ranged Weapon" index="4"]
 position = Vector2(73.6883, 5.72205e-06)
 
+[node name="Consume Check" type="Area2D" parent="." index="6"]
+collision_layer = 0
+collision_mask = 32
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Consume Check" index="0"]
+shape = SubResource("CircleShape2D_r2khi")
+
 [connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Dash Action" to="." method="_on_dash_action_on_input_press"]
-[connection signal="OnInputPress" from="Inputs/Consume Action" to="." method="_on_dash_action_on_input_press"]
+[connection signal="OnInputPress" from="Inputs/Consume Action" to="." method="_on_consume_action_on_input_press"]
 
 [editable path="GoopController/Ranged Weapon"]

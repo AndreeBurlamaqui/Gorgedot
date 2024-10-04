@@ -36,5 +36,5 @@ func add(value : float):
 	_update(cur_goop + value)
 
 func attack(player : UnitController):
-	goop_weapon.TryUse(player)
-	reduce(goop_weapon_cost)
+	if goop_weapon.TryUse(player) :
+		reduce(goop_weapon_cost)

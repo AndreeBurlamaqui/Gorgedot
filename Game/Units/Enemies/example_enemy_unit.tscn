@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://c8a1mlb11eu4g" path="res://Game/tint_shader.tres" id="6_q74af"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5710o"]
+resource_local_to_scene = true
 shader = ExtResource("6_q74af")
 shader_parameter/tint = Color(0, 0, 0, 1)
 

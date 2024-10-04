@@ -17,6 +17,7 @@ func _ready():
 	focusArea.area_exited.connect(on_exit_focus_area)
 
 	focusTarget = GameManager.Family
+	_flash_animations.play(&"RESET")
 
 func GetMoveDirection():
 	return MovementType.GetMovement(self, focusTarget)
