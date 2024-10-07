@@ -17,6 +17,13 @@ randomAngle = false
 projectiles = Array[ExtResource("3_1n3wf")]([SubResource("Resource_4fksk")])
 attack_distance = 500.0
 
+[node name="Timer" parent="." index="0"]
+wait_time = 2.0
+
+[node name="Weapon" parent="." index="3"]
+position = Vector2(42, -80)
+rotation = -0.856598
+
 [node name="Visual" parent="Weapon" index="0"]
 texture = ExtResource("4_k5tuv")
 
