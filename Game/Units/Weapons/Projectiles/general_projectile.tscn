@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Game/Components/Hitbox.gd" id="3_jka0j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11g6q"]
-size = Vector2(11.42, 32.5009)
+size = Vector2(20.5748, 22.0168)
 
 [sub_resource type="Animation" id="Animation_41wnv"]
 resource_name = "on_hit_animation"
@@ -65,7 +65,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lvm"]
-size = Vector2(20, 38)
+size = Vector2(20, 21)
 
 [node name="Projectile" type="Node2D" node_paths=PackedStringArray("timer", "hitBox", "impactBox", "animator")]
 position = Vector2(-2, 1)

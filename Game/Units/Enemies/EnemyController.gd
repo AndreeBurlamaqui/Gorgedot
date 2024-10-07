@@ -1,9 +1,5 @@
 class_name EnemyController extends UnitController
 
-@export var AttackDistance : float = 200.0:
-	set(value):
-		AttackDistance = value
-		queue_redraw()
 @export var MovementType : EnemyMovement
 
 @export_group("ATTACK")
@@ -53,7 +49,7 @@ func on_exit_focus_area(collision : Area2D):
 	focusTarget = GameManager.Family
 
 func _process(delta):
-	if MovementType.GetMovement(self, focusTarget).length() < AttackDistance :
+	if MovementType.GetMovement(self, focusTarget).length() < GetAttackDistance() :
 		TryMainAction()
 	
 	super._process(delta)
@@ -63,3 +59,10 @@ func play_and_reset_flash(animName : String) -> Signal:
 	await _flash_animations.animation_finished
 	_flash_animations.play(&"RESET")
 	return get_tree().process_frame
+
+func GetAttackDistance() -> float :
+	var atkDist = 0.0
+	if currentWeapon != null :
+		atkDist = currentWeapon.attack_distance 
+	
+	return atkDist

@@ -198,3 +198,4 @@ func is_valid_enemy_to_consume(enemy) -> bool :
 			return false
 	
 	return true
+

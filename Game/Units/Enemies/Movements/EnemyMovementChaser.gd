@@ -7,7 +7,7 @@ func GetMovement(selfEnemy : EnemyController, target : Node2D) -> Vector2:
 	
 	var direction = target.global_position - selfEnemy.global_position
 	
-	if direction.length() > selfEnemy.AttackDistance:
+	if direction.length() > selfEnemy.GetAttackDistance():
 		return direction
 	else:
 		return Vector2.ZERO

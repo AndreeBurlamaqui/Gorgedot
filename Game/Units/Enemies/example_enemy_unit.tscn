@@ -73,7 +73,6 @@ _data = {
 collision_layer = 32
 collision_mask = 49
 script = ExtResource("2_ojer1")
-AttackDistance = 125.0
 MovementType = ExtResource("3_n44cq")
 focusArea = NodePath("Focus Area")
 _flash_animations = NodePath("Can Consume Flash")

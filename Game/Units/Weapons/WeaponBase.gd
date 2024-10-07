@@ -10,6 +10,7 @@ class_name WeaponBase extends Node2D
 @export_group("VALUES")
 @export var dropForce = 500.0;
 @export var dropSpeed = 750;
+@export var attack_distance := 125.0
 
 @export_group("ANIMATIONS")
 @export var onPickAnimation : String

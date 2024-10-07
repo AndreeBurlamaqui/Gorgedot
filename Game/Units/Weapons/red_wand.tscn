@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://defln03klvxcv"]
+
+[ext_resource type="PackedScene" uid="uid://c58efox3v2m5x" path="res://Game/Units/Weapons/ranged_weapon_base.tscn" id="1_rqisv"]
+[ext_resource type="PackedScene" uid="uid://deakn8hxlxiq" path="res://Game/Units/Weapons/Projectiles/red_projectile.tscn" id="2_ru2nc"]
+[ext_resource type="Script" path="res://Game/Units/Weapons/Projectiles/ProjectileData.gd" id="3_1n3wf"]
+[ext_resource type="Texture2D" uid="uid://dpokx1bb0jc58" path="res://Art/Items/weapon_staff.png" id="4_k5tuv"]
+
+[sub_resource type="Resource" id="Resource_4fksk"]
+script = ExtResource("3_1n3wf")
+projectile = ExtResource("2_ru2nc")
+damage = 1.0
+amount = 3.0
+angle = Vector2(15, -15)
+randomAngle = false
+
+[node name="Red Wand" instance=ExtResource("1_rqisv")]
+projectiles = Array[ExtResource("3_1n3wf")]([SubResource("Resource_4fksk")])
+attack_distance = 500.0
+
+[node name="Visual" parent="Weapon" index="0"]
+texture = ExtResource("4_k5tuv")
+
+[node name="Left Hand" parent="Weapon/Visual" index="0"]
+position = Vector2(-2, 22)
+
+[node name="Right Hand" parent="Weapon/Visual" index="1"]
+position = Vector2(2, 38)

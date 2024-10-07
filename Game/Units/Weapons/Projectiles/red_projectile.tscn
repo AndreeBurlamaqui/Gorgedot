@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://deakn8hxlxiq"]
+
+[ext_resource type="PackedScene" uid="uid://dp3sdqrfgrabq" path="res://Game/Units/Weapons/Projectiles/general_projectile.tscn" id="1_yngmf"]
+[ext_resource type="Texture2D" uid="uid://pancbs1ybecs" path="res://Art/Environment/trap.png" id="2_oajli"]
+
+[node name="Red Projectile" instance=ExtResource("1_yngmf")]
+
+[node name="Visual" parent="." index="0"]
+position = Vector2(19.973, 0)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_oajli")
+
+[node name="ImpactBox" parent="." index="1"]
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="ImpactBox" index="0"]
+position = Vector2(-1.16825e-05, -2.5)
+scale = Vector2(0.977399, 0.953819)
+
+[node name="Hitbox" parent="." index="4"]
+collision_mask = 3
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(2.49999, 9.05991e-06)
