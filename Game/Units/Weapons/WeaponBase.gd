@@ -68,7 +68,7 @@ func _on_area_2d_body_entered(body: UnitController):
 	else:
 		print("Picker isn't an Unit")
 
-func TryDrop(user : UnitController):
+func TryThrow(user : UnitController):
 	if user.currentWeapon == null || user.currentWeapon != self :
 		return
 	
@@ -91,18 +91,10 @@ func TryDrop(user : UnitController):
 #	TinyUtils.visualize_raycast(dropRaycast, 0.5, Color.YELLOW)
 #	print("End point of drop raycast is", end_point)
 	
-	# Remove weapon as a child from the unit
-	var currentSceneRoot = get_tree().current_scene 
-	self.get_parent().remove_child(self)
-	currentSceneRoot.add_child(self)
-	weaponHolder.global_rotation = oldRotation
-	
-	# And then clean the current weapon from the unit
-	user.currentWeapon = null
-	unitOwner = null
+	Drop(user, oldPosition, oldRotation)
 	
 	# And then tween towards the end point
-	PlayAnimation(onDropAnimation)
+	SetPickable(false) # Drop sets to true, we need it false while traveling
 	var dropTween = create_tween()
 	dropTween.set_ease(Tween.EASE_OUT)
 	dropTween.set_trans(Tween.TRANS_SINE)
@@ -124,3 +116,21 @@ func PlayAnimation(targetAnimation : String):
 		return
 	
 	animator.play(targetAnimation)
+
+func Drop(user : UnitController, dropPos : Vector2, dropRot : float):
+	# And then clean the current weapon from the unit
+	user.currentWeapon = null
+	unitOwner = null
+	
+	# Remove weapon as a child from the unit
+	var currentSceneRoot = get_tree().current_scene 
+	self.get_parent().remove_child(self)
+	currentSceneRoot.add_child(self)
+	global_position = dropPos
+	global_rotation = dropRot
+	PlayAnimation(onDropAnimation)
+	
+	SetPickable(true) # Enable pickable again
+	
+	PlayAnimation("RESET")
+	Reset()

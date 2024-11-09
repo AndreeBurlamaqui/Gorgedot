@@ -72,7 +72,7 @@ func TryDropAction():
 	if(currentWeapon == null):
 		return
 	
-	currentWeapon.TryDrop(self)
+	currentWeapon.TryThrow(self)
 
 func ApplyImpulse(direction : Vector2, force : float):
 	if _Is_Impulsed():

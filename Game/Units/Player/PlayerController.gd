@@ -149,9 +149,9 @@ func _on_consume_action_on_input_press():
 		consumeTween.tween_property(bodyNode, "scale", ogScale, 0.15)
 		await consumeTween.finished
 		canMove = true
-		_is_consuming = false
 		# Don't break, lets make a option of consuming everyone in range
-
+	print("Finished consuming")
+	_is_consuming = false
 	_is_checking_consume = false
 
 func can_consume(unit : Health) -> bool :

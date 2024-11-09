@@ -26,9 +26,10 @@ func TryUse(user : UnitController):
 	user.ApplyImpulse(TinyMath.rotation_to_direction(user.rotation), impulseForce)
 	
 	await animator.animation_finished
-
-	user.canMove = true
-	user.canAim = true
+	if user != null:
+		user.canMove = true
+		user.canAim = true
+	
 	isAttacking = false
 	
 	# Cooldown to attack again
@@ -37,11 +38,11 @@ func TryUse(user : UnitController):
 	
 	attackCount += 1
 
-func TryDrop(user : UnitController):
+func TryThrow(user : UnitController):
 	while isAttacking: # Some sort of "queue" the input
 		await get_tree().process_frame
 	
-	super.TryDrop(user)
+	super.TryThrow(user)
 
 func Reset():
 	attackCount = 0

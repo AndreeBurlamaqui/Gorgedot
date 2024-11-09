@@ -30,6 +30,8 @@ func _on_health_hit(attacker, health : Health):
 	
 	if health.curHealth <= 0 :
 		GameManager.add_score(health.maxHealth)
+		if currentWeapon != null :
+			currentWeapon.Drop(self, global_position, global_rotation)
 	
 	var can_player_consume_self = GameManager.Player.can_consume(health)
 	await play_and_reset_flash("hit")

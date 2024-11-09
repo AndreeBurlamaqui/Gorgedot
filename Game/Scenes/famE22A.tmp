@@ -102,7 +102,7 @@ hurtbox = NodePath("Health")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Family"]
 disable_mode = 1
-collision_mask = 32
+collision_mask = 48
 physics_material_override = SubResource("PhysicsMaterial_2mxbh")
 
 [node name="Sprite2D" type="Sprite2D" parent="Family/StaticBody2D"]
