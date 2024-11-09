@@ -80,3 +80,14 @@ static func get_random_position_outside(origin : Vector2, area : Vector2, radius
 			randomPos.y = randf_range(-radius, area.y - radius)
 	
 	return origin + randomPos - area / 2
+
+static func get_all_children(parent) -> Array:
+	var descendants = []
+	for child in parent.get_children():
+		descendants.append(child)
+		descendants += get_all_children(child)
+	return descendants
+
+static func copy_collision_matrix(source: CollisionObject2D, target: CollisionObject2D) -> void:
+	target.collision_layer = source.collision_layer
+	target.collision_mask = source.collision_mask

@@ -24,6 +24,8 @@ var _last_impulse_force := Vector2.ZERO
 var _current_impulse_duration := 0.0
 var _last_impulse_duration := 0.0
 
+var damage_matrix = [0 , false]
+
 func _enter_tree():
 	bodyNode.texture = bodyVisual
 	bodyNode.scale = Vector2.ONE * bodyScale
@@ -103,3 +105,16 @@ func _on_hurtbox_on_hit(attacker : Hitbox, health : Health) -> void:
 	stunTimer.start()
 	await stunTimer.timeout
 	canMove = true
+
+func on_weapon_pick(newWeapon : WeaponBase):
+	# Setup hands
+	for hand in newWeapon.handSprites:
+		var handSprite = handsVisual
+		hand.visible = handSprite != null
+		hand.texture = handSprite
+	
+	# Change collision matrix
+	for child in TinyUtils.get_all_children(newWeapon):
+		if child is Hitbox:
+			for dmgCol in damage_matrix:
+				child.set_collision_mask_value(dmgCol[0], dmgCol[1])

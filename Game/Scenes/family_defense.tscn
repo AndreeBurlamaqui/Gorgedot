@@ -165,7 +165,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_15bxr")
 value = 36.7
 
 [node name="Health" type="Area2D" parent="Family"]
-collision_layer = 2
+collision_layer = 64
 collision_mask = 0
 monitoring = false
 script = ExtResource("5_cpjej")

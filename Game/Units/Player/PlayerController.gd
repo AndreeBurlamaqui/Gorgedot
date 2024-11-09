@@ -41,6 +41,14 @@ var _last_aim := Vector2.ZERO
 
 func _enter_tree():
 	GameManager.Player = self
+	# Should hit enemy (6) and damageables (2)
+	# And not hit player (5) and nexus (7)
+	damage_matrix = [
+		[6 , true],
+		[2 , true],
+		[5 , false],
+		[7 , false],
+	]
 
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :

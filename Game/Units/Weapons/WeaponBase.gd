@@ -52,11 +52,7 @@ func TryPickup(user : UnitController):
 	rotation_degrees = 90 # Default face upwards
 	weaponHolder.rotation = 0
 	
-	# Setup hands
-	for hand in handSprites:
-		var handSprite = user.handsVisual
-		hand.visible = handSprite != null
-		hand.texture = handSprite
+	user.on_weapon_pick(self)
 	
 	# Finish animations
 	PlayAnimation(onPickAnimation)

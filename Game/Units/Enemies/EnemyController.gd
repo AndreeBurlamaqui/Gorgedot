@@ -8,6 +8,16 @@ var focusTarget : Node2D # Just to get the direction mostly
 
 @export var _flash_animations : AnimationPlayer
 
+func _enter_tree():
+	# Should not hit enemy (6)
+	# And hit player (5), nexus (7) and damageables (2)
+	damage_matrix = [
+		[6 , false],
+		[2 , true],
+		[5 , true],
+		[7 , true],
+	]
+
 func _ready():
 	focusArea.area_entered.connect(on_enter_focus_area)
 	focusArea.area_exited.connect(on_exit_focus_area)
