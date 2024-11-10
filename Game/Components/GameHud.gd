@@ -7,8 +7,9 @@ extends CanvasLayer
 @export var _game_over_screen : Control
 
 @export_group("STOMACH")
+@export var _stomach_parent : Array[Control]
 @export var _stomach_weapons : Array[TextureRect]
-@export var _stomach_resistances : Array[ProgressBar]
+@export var _stomach_durabilities : Array[ProgressBar]
 @export var _stomach_gradient : Gradient
 
 func _ready():
@@ -69,26 +70,50 @@ func _on_restart_click() :
 func _on_stomach_update(curWeapon : WeaponBase, stomach : Array[WeaponBase]) :
 	# Middle one will be the cur weapon
 	var curSlot = _stomach_weapons[1]
-	if curWeapon == null :
+	var curProgress = _stomach_durabilities[1]
+	if curWeapon == null or not is_instance_valid(curWeapon):
 		curSlot.visible = false
+		_stomach_parent[1].modulate = Color.WHITE
+		curProgress.value = 0
 	else :
 		curSlot.visible = true
 		curSlot.texture = curWeapon.visual.texture
+		curProgress.max_value = curWeapon.max_durability
+		curProgress.min_value = 0
+		curProgress.value = curWeapon.durability
+		var curColor = inverse_lerp(curWeapon.max_durability, 0, curWeapon.durability)
+		_stomach_parent[1].modulate = _stomach_gradient.sample(curColor)
 	
 	# Other 2 will be from stomach
 	var qWeapon = stomach[0]
 	var qSlot = _stomach_weapons[0]
+	var qProgress = _stomach_durabilities[0]
 	if qWeapon == null:
 		# Hide slot
 		qSlot.visible = false
+		_stomach_parent[0].modulate = Color.WHITE
+		qProgress.value = 0
 	else :
 		qSlot.visible = true
 		qSlot.texture = qWeapon.visual.texture
+		qProgress.max_value = qWeapon.max_durability
+		qProgress.min_value = 0
+		qProgress.value = qWeapon.durability
+		var curColor = inverse_lerp(qWeapon.max_durability, 0, qWeapon.durability)
+		_stomach_parent[0].modulate = _stomach_gradient.sample(curColor)
 	
 	var eWeapon = stomach[1]
 	var eSlot = _stomach_weapons[2]
+	var eProgress = _stomach_durabilities[2]
 	if eWeapon == null:
 		eSlot.visible = false
+		_stomach_parent[2].modulate = Color.WHITE
+		eProgress.value = 0
 	else :
 		eSlot.visible = true
 		eSlot.texture = eWeapon.visual.texture
+		eProgress.max_value = eWeapon.max_durability
+		eProgress.min_value = 0
+		eProgress.value = eWeapon.durability
+		var curColor = inverse_lerp(eWeapon.max_durability, 0, eWeapon.durability)
+		_stomach_parent[2].modulate = _stomach_gradient.sample(curColor)

@@ -9,15 +9,16 @@
 offsets = PackedFloat32Array(0.745098, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0.903823, 0.300844, 0.114355, 1)
 
-[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label", "_game_over_screen", "_stomach_weapons", "_stomach_resistances")]
+[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label", "_game_over_screen", "_stomach_parent", "_stomach_weapons", "_stomach_durabilities")]
 script = ExtResource("1_jjgy7")
 _goop_bar = NodePath("Goop/VBoxContainer/Goop bar/ProgressBar")
 _dash_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Dash Bar/ProgressBar")
 _consume_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Consume Bar/ProgressBar")
 _score_label = NodePath("Score/HBoxContainer/Label2")
 _game_over_screen = NodePath("Game Over")
+_stomach_parent = [NodePath("Stomach/HBoxContainer/Panel3"), NodePath("Stomach/HBoxContainer/Panel4"), NodePath("Stomach/HBoxContainer/Panel5")]
 _stomach_weapons = [NodePath("Stomach/HBoxContainer/Panel3/TextureRect"), NodePath("Stomach/HBoxContainer/Panel4/TextureRect"), NodePath("Stomach/HBoxContainer/Panel5/TextureRect")]
-_stomach_resistances = [NodePath("Stomach/HBoxContainer/Panel3/ProgressBar3"), NodePath("Stomach/HBoxContainer/Panel4/ProgressBar2"), NodePath("Stomach/HBoxContainer/Panel5/ProgressBar")]
+_stomach_durabilities = [NodePath("Stomach/HBoxContainer/Panel3/ProgressBar3"), NodePath("Stomach/HBoxContainer/Panel4/ProgressBar2"), NodePath("Stomach/HBoxContainer/Panel5/ProgressBar")]
 _stomach_gradient = SubResource("Gradient_6c77x")
 metadata/_edit_horizontal_guides_ = [15.0, 525.0]
 metadata/_edit_vertical_guides_ = [945.0, 15.0, 481.0]
@@ -239,7 +240,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-step = 0.1
 value = 45.4
 fill_mode = 3
 show_percentage = false
@@ -269,7 +269,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-step = 0.1
 value = 45.4
 fill_mode = 3
 show_percentage = false
@@ -299,7 +298,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-step = 0.1
 value = 45.4
 fill_mode = 3
 show_percentage = false

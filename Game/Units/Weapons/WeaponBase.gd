@@ -12,6 +12,8 @@ class_name WeaponBase extends Node2D
 @export var dropForce = 500.0;
 @export var dropSpeed = 750;
 @export var attack_distance := 125.0
+@export var max_durability := 5.0
+var durability := 5.0
 
 @export_group("ANIMATIONS")
 @export var onPickAnimation : String
@@ -25,6 +27,11 @@ func _enter_tree():
 	for hand in handSprites:
 		hand.visible = hasInitOwner
 
+func _exit_tree():
+	if unitOwner != null:
+		unitOwner.canMove = true
+		unitOwner.canAim = true
+
 func _ready():
 	if dropRaycast != null:
 		dropRaycast.target_position = Vector2(0, -dropForce)
@@ -34,7 +41,7 @@ func _ready():
 	Reset()
 
 func Reset():
-	pass
+	durability = max_durability
 
 func TryUse(user : UnitController):
 	pass

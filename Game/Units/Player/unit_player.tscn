@@ -43,6 +43,7 @@ _consume_threshold = 0.5
 _consume_area = 250
 _consume_cooldown = 0.75
 _consume_recover = 15.0
+durability_acid_rate = 0.25
 stunTimer = NodePath("Stun")
 bodyVisual = ExtResource("3_2b56o")
 bodyScale = 2.0
@@ -128,11 +129,15 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Consume Check" index="0"]
 shape = SubResource("CircleShape2D_r2khi")
 
+[node name="Acid" type="Timer" parent="." index="7"]
+autostart = true
+
 [connection signal="on_hit" from="Hurtbox" to="." method="_on_health_hit"]
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Dash Action" to="." method="_on_dash_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Consume Action" to="." method="_on_consume_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Change E" to="." method="_on_change_e_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Change Q" to="." method="_on_change_q_on_input_press"]
+[connection signal="timeout" from="Acid" to="." method="_on_acid_timeout"]
 
 [editable path="GoopController/Ranged Weapon"]

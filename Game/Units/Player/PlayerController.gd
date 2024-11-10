@@ -40,6 +40,8 @@ var _last_motion := Vector2.RIGHT
 var _last_aim := Vector2.ZERO
 
 # STOMACH
+@export_group("STOMACH")
+@export var durability_acid_rate := 0.25
 var stomach : Array[WeaponBase] = [null, null]
 signal stomach_updated(curWeapon : WeaponBase, stomach : Array[WeaponBase])
 
@@ -110,7 +112,8 @@ func on_weapon_pick(newWeapon : WeaponBase):
 	if newWeapon != currentWeapon and currentWeapon != null:
 		# If so, it should go to an empty slot in the inventory
 		for slot in stomach.size():
-			if stomach[slot] == null:
+			var slotWeapon = stomach[slot]
+			if slotWeapon == null or not is_instance_valid(slotWeapon):
 				print("[STOMACH] Free slot on pickup ", slot)
 				stomach[slot] = newWeapon
 				TinyUtils.set_active(newWeapon, false)
@@ -133,8 +136,7 @@ func can_pickup_weapon(possibleWeapon : WeaponBase) -> bool:
 	# Check if has any free slot
 	for slot in stomach.size():
 		var weapon = stomach[slot]
-		if weapon == null:
-			print("[STOMACH] Free slot to pickup on ", slot)
+		if weapon == null or not is_instance_valid(weapon):
 			return true
 	
 	return super.can_pickup_weapon(possibleWeapon)
@@ -253,7 +255,7 @@ func is_valid_enemy_to_consume(enemy) -> bool :
 func _on_change_e_on_input_press():
 	# Change current to first weapon
 	var slotWeapon = stomach[0]
-	if slotWeapon == null:
+	if slotWeapon == null or not is_instance_valid(slotWeapon):
 		return # No weapon to change
 	TinyUtils.set_active(currentWeapon, false)
 	TinyUtils.set_active(slotWeapon, true)
@@ -265,7 +267,7 @@ func _on_change_e_on_input_press():
 func _on_change_q_on_input_press():
 	# Change current to second weapon
 	var slotWeapon = stomach[1]
-	if slotWeapon == null:
+	if slotWeapon == null or not is_instance_valid(slotWeapon):
 		return # No weapon to change
 	TinyUtils.set_active(currentWeapon, false)
 	TinyUtils.set_active(slotWeapon, true)
@@ -273,3 +275,24 @@ func _on_change_q_on_input_press():
 	currentWeapon = slotWeapon
 	on_weapon_pick(currentWeapon)
 	stomach_updated.emit(currentWeapon, stomach)
+
+func _on_acid_timeout():
+	if currentWeapon != null and is_instance_valid(currentWeapon):
+		# On next tick, destroy if below
+		if currentWeapon.durability <= 0:
+			currentWeapon.queue_free()
+			currentWeapon = null
+		else : 
+			currentWeapon.durability -= durability_acid_rate # Normal rate when held
+	
+	for slot in stomach.size():
+		var weapon = stomach[slot]
+		if weapon != null and is_instance_valid(weapon):
+			# On next tick, decrease if below
+			if weapon.durability <= 0:
+				weapon.queue_free()
+				stomach[slot] = null
+			else :
+				weapon.durability -= durability_acid_rate * 0.5 # Slower when in stomach
+	
+	stomach_updated.emit(currentWeapon, stomach) # Update UI

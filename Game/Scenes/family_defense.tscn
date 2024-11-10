@@ -94,6 +94,7 @@ position = Vector2(6, 174)
 platform_on_leave = 0
 platform_floor_layers = 4294967295
 safe_margin = 0.015
+durability_acid_rate = 0.25
 
 [node name="Family" type="Node2D" parent="." node_paths=PackedStringArray("hp_bar", "hurtbox")]
 script = ExtResource("2_50mvr")
