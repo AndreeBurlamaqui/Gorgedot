@@ -6,6 +6,7 @@ class_name WeaponBase extends Node2D
 @export var pickupArea : Area2D
 @export var dropRaycast : RayCast2D
 @export var animator : AnimationPlayer
+@export var visual : Sprite2D
 
 @export_group("VALUES")
 @export var dropForce = 500.0;
@@ -39,11 +40,10 @@ func TryUse(user : UnitController):
 	pass
 
 func TryPickup(user : UnitController):
-	if unitOwner != null || user.currentWeapon != null:
+	if not user.can_pickup_weapon(self):
 		return
 	
 	unitOwner = user
-	unitOwner.currentWeapon = self
 	SetPickable(false)
 	self.get_parent().remove_child(self)
 	unitOwner.add_child(self)
@@ -53,7 +53,8 @@ func TryPickup(user : UnitController):
 	weaponHolder.rotation = 0
 	
 	user.on_weapon_pick(self)
-	
+
+func on_finish_pickup():
 	# Finish animations
 	PlayAnimation(onPickAnimation)
 	Reset()

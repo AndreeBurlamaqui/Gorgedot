@@ -91,3 +91,14 @@ static func get_all_children(parent) -> Array:
 static func copy_collision_matrix(source: CollisionObject2D, target: CollisionObject2D) -> void:
 	target.collision_layer = source.collision_layer
 	target.collision_mask = source.collision_mask
+
+static func set_active(node: CanvasItem, state : bool):
+	if node == null :
+		return
+	
+	if state:
+		node.process_mode = Node.PROCESS_MODE_INHERIT
+		node.show()
+	else :
+		node.process_mode = Node.PROCESS_MODE_DISABLED
+		node.hide()

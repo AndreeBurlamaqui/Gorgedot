@@ -39,6 +39,10 @@ var _motion := Vector2.ZERO
 var _last_motion := Vector2.RIGHT
 var _last_aim := Vector2.ZERO
 
+# STOMACH
+var stomach : Array[WeaponBase] = [null, null]
+signal stomach_updated(curWeapon : WeaponBase, stomach : Array[WeaponBase])
+
 func _enter_tree():
 	GameManager.Player = self
 	# Should hit enemy (6) and damageables (2)
@@ -49,6 +53,9 @@ func _enter_tree():
 		[5 , false],
 		[7 , false],
 	]
+
+func _ready():
+	stomach_updated.emit(currentWeapon, stomach)
 
 func _physics_process(delta: float) -> void:
 	if mainActionInput.is_pressed :
@@ -97,9 +104,45 @@ func GetAimDirection():
 	_last_aim = get_global_mouse_position()
 	return _last_aim
 
+func on_weapon_pick(newWeapon : WeaponBase):
+	# Check if has already in hand
+	# Can't be the same weapon because we might just want to update col matrix
+	if newWeapon != currentWeapon and currentWeapon != null:
+		# If so, it should go to an empty slot in the inventory
+		for slot in stomach.size():
+			if stomach[slot] == null:
+				print("[STOMACH] Free slot on pickup ", slot)
+				stomach[slot] = newWeapon
+				TinyUtils.set_active(newWeapon, false)
+				stomach_updated.emit(currentWeapon, stomach)
+				return
+		
+		# If no empty slot, drop it
+		print("[STOMACH] No empty slot, dropping back")
+		newWeapon.Drop(self, global_position, global_rotation)
+		return
+	
+	# Empty handed, go as usual
+	super.on_weapon_pick(newWeapon)
+	stomach_updated.emit(newWeapon, stomach)
+
+func can_pickup_weapon(possibleWeapon : WeaponBase) -> bool:
+	if possibleWeapon.unitOwner != null:
+		return false # No need to check anything else if already has an owner
+	
+	# Check if has any free slot
+	for slot in stomach.size():
+		var weapon = stomach[slot]
+		if weapon == null:
+			print("[STOMACH] Free slot to pickup on ", slot)
+			return true
+	
+	return super.can_pickup_weapon(possibleWeapon)
+
 # SIGNALS
 func _on_drop_action_on_input_press():
 	TryDropAction()
+	stomach_updated.emit(currentWeapon, stomach)
 
 func _on_health_hit(attacker, health : Health):
 	TinyUtils.set_time_scale(0.05, 1.15)
@@ -207,3 +250,26 @@ func is_valid_enemy_to_consume(enemy) -> bool :
 	
 	return true
 
+func _on_change_e_on_input_press():
+	# Change current to first weapon
+	var slotWeapon = stomach[0]
+	if slotWeapon == null:
+		return # No weapon to change
+	TinyUtils.set_active(currentWeapon, false)
+	TinyUtils.set_active(slotWeapon, true)
+	stomach[0] = currentWeapon
+	currentWeapon = slotWeapon
+	on_weapon_pick(currentWeapon)
+	stomach_updated.emit(currentWeapon, stomach)
+
+func _on_change_q_on_input_press():
+	# Change current to second weapon
+	var slotWeapon = stomach[1]
+	if slotWeapon == null:
+		return # No weapon to change
+	TinyUtils.set_active(currentWeapon, false)
+	TinyUtils.set_active(slotWeapon, true)
+	stomach[1] = currentWeapon
+	currentWeapon = slotWeapon
+	on_weapon_pick(currentWeapon)
+	stomach_updated.emit(currentWeapon, stomach)

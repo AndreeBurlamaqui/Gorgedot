@@ -6,11 +6,18 @@ extends CanvasLayer
 @export var _score_label : Label
 @export var _game_over_screen : Control
 
+@export_group("STOMACH")
+@export var _stomach_weapons : Array[TextureRect]
+@export var _stomach_resistances : Array[ProgressBar]
+@export var _stomach_gradient : Gradient
+
 func _ready():
 	GameManager.Player.goop.on_update.connect(_on_goop_update)
 	GameManager.Player.dash.connect(_on_dash)
 	GameManager.Player.enemies_consumable_changed.connect(_on_enemies_to_consume_chaged)
 	GameManager.Player.consuming_enemy.connect(_on_enemy_consumed)
+	GameManager.Player.stomach_updated.connect(_on_stomach_update)
+	
 	GameManager.score_changed.connect(_on_score_changed)
 	GameManager.game_ended.connect(_on_game_ended)
 	_on_score_changed (0)
@@ -58,3 +65,30 @@ func _on_game_ended(state : GameManager.GameState):
 
 func _on_restart_click() :
 	GameManager.restart_game()
+
+func _on_stomach_update(curWeapon : WeaponBase, stomach : Array[WeaponBase]) :
+	# Middle one will be the cur weapon
+	var curSlot = _stomach_weapons[1]
+	if curWeapon == null :
+		curSlot.visible = false
+	else :
+		curSlot.visible = true
+		curSlot.texture = curWeapon.visual.texture
+	
+	# Other 2 will be from stomach
+	var qWeapon = stomach[0]
+	var qSlot = _stomach_weapons[0]
+	if qWeapon == null:
+		# Hide slot
+		qSlot.visible = false
+	else :
+		qSlot.visible = true
+		qSlot.texture = qWeapon.visual.texture
+	
+	var eWeapon = stomach[1]
+	var eSlot = _stomach_weapons[2]
+	if eWeapon == null:
+		eSlot.visible = false
+	else :
+		eSlot.visible = true
+		eSlot.texture = eWeapon.visual.texture

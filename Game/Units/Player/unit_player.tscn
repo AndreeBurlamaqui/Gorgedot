@@ -87,6 +87,14 @@ action_name = "dash_action"
 script = ExtResource("3_qq5cb")
 action_name = "consume_action"
 
+[node name="Change E" type="Node" parent="Inputs" index="8"]
+script = ExtResource("3_qq5cb")
+action_name = "left_change_stomach"
+
+[node name="Change Q" type="Node" parent="Inputs" index="9"]
+script = ExtResource("3_qq5cb")
+action_name = "right_change_stomach"
+
 [node name="GoopController" type="Node2D" parent="." index="5" node_paths=PackedStringArray("health", "goop_weapon")]
 script = ExtResource("5_ibuwr")
 health = NodePath("../Hurtbox")
@@ -124,5 +132,7 @@ shape = SubResource("CircleShape2D_r2khi")
 [connection signal="OnInputPress" from="Inputs/Drop Action" to="." method="_on_drop_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Dash Action" to="." method="_on_dash_action_on_input_press"]
 [connection signal="OnInputPress" from="Inputs/Consume Action" to="." method="_on_consume_action_on_input_press"]
+[connection signal="OnInputPress" from="Inputs/Change E" to="." method="_on_change_e_on_input_press"]
+[connection signal="OnInputPress" from="Inputs/Change Q" to="." method="_on_change_q_on_input_press"]
 
 [editable path="GoopController/Ranged Weapon"]

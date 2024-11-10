@@ -129,7 +129,7 @@ size = Vector2(161, 124.364)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1hd"]
 size = Vector2(50, 122)
 
-[node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator", "handSprites")]
+[node name="Weapon" type="Node2D" node_paths=PackedStringArray("weaponHolder", "cooldownTimer", "pickupArea", "dropRaycast", "animator", "visual", "handSprites")]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_i71gw")
 weaponHolder = NodePath("Weapon")
@@ -137,6 +137,7 @@ cooldownTimer = NodePath("Timer")
 pickupArea = NodePath("Weapon/PickArea")
 dropRaycast = NodePath("DropRaycast")
 animator = NodePath("AnimationPlayer")
+visual = NodePath("Weapon/Visual")
 onPickAnimation = "pickup_animation"
 onDropAnimation = "drop_animation"
 handSprites = [NodePath("Weapon/Visual/Left Hand"), NodePath("Weapon/Visual/Right Hand")]

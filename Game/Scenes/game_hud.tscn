@@ -1,17 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://bq6ya0ht6vguf"]
+[gd_scene load_steps=6 format=3 uid="uid://bq6ya0ht6vguf"]
 
 [ext_resource type="Texture2D" uid="uid://ctf2al4jbvqoa" path="res://Art/Items/weapon_axe_large.png" id="1_cgqpb"]
 [ext_resource type="Script" path="res://Game/Components/GameHud.gd" id="1_jjgy7"]
 [ext_resource type="Texture2D" uid="uid://3qilrmp2quel" path="res://Art/Environment/puddle.png" id="2_o0w58"]
 [ext_resource type="Theme" uid="uid://dic0hjorgbpq2" path="res://Art/UI/ui_theme.tres" id="3_75agm"]
 
-[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label", "_game_over_screen")]
+[sub_resource type="Gradient" id="Gradient_6c77x"]
+offsets = PackedFloat32Array(0.745098, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.903823, 0.300844, 0.114355, 1)
+
+[node name="Game HUD" type="CanvasLayer" node_paths=PackedStringArray("_goop_bar", "_dash_bar", "_consume_bar", "_score_label", "_game_over_screen", "_stomach_weapons", "_stomach_resistances")]
 script = ExtResource("1_jjgy7")
 _goop_bar = NodePath("Goop/VBoxContainer/Goop bar/ProgressBar")
 _dash_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Dash Bar/ProgressBar")
 _consume_bar = NodePath("Goop/VBoxContainer/HBoxContainer2/Consume Bar/ProgressBar")
 _score_label = NodePath("Score/HBoxContainer/Label2")
 _game_over_screen = NodePath("Game Over")
+_stomach_weapons = [NodePath("Stomach/HBoxContainer/Panel3/TextureRect"), NodePath("Stomach/HBoxContainer/Panel4/TextureRect"), NodePath("Stomach/HBoxContainer/Panel5/TextureRect")]
+_stomach_resistances = [NodePath("Stomach/HBoxContainer/Panel3/ProgressBar3"), NodePath("Stomach/HBoxContainer/Panel4/ProgressBar2"), NodePath("Stomach/HBoxContainer/Panel5/ProgressBar")]
+_stomach_gradient = SubResource("Gradient_6c77x")
 metadata/_edit_horizontal_guides_ = [15.0, 525.0]
 metadata/_edit_vertical_guides_ = [945.0, 15.0, 481.0]
 
@@ -109,7 +116,6 @@ text = "Ctrl"
 uppercase = true
 
 [node name="Stomach" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -226,6 +232,18 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ProgressBar3" type="ProgressBar" parent="Stomach/HBoxContainer/Panel3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.1
+value = 45.4
+fill_mode = 3
+show_percentage = false
+
 [node name="TextureRect" type="TextureRect" parent="Stomach/HBoxContainer/Panel3"]
 layout_mode = 1
 anchors_preset = 15
@@ -244,6 +262,18 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ProgressBar2" type="ProgressBar" parent="Stomach/HBoxContainer/Panel4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.1
+value = 45.4
+fill_mode = 3
+show_percentage = false
+
 [node name="TextureRect" type="TextureRect" parent="Stomach/HBoxContainer/Panel4"]
 layout_mode = 1
 anchors_preset = 15
@@ -258,8 +288,21 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Panel5" type="Panel" parent="Stomach/HBoxContainer"]
+modulate = Color(0.541176, 0.235294, 0.137255, 1)
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Stomach/HBoxContainer/Panel5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.1
+value = 45.4
+fill_mode = 3
+show_percentage = false
 
 [node name="TextureRect" type="TextureRect" parent="Stomach/HBoxContainer/Panel5"]
 layout_mode = 1
@@ -306,6 +349,7 @@ theme = ExtResource("3_75agm")
 text = "88888"
 
 [node name="Game Over" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

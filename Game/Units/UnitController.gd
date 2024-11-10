@@ -107,6 +107,8 @@ func _on_hurtbox_on_hit(attacker : Hitbox, health : Health) -> void:
 	canMove = true
 
 func on_weapon_pick(newWeapon : WeaponBase):
+	currentWeapon = newWeapon
+	
 	# Setup hands
 	for hand in newWeapon.handSprites:
 		var handSprite = handsVisual
@@ -118,3 +120,8 @@ func on_weapon_pick(newWeapon : WeaponBase):
 		if child is Hitbox:
 			for dmgCol in damage_matrix:
 				child.set_collision_mask_value(dmgCol[0], dmgCol[1])
+	
+	newWeapon.on_finish_pickup()
+
+func can_pickup_weapon(possibleWeapon : WeaponBase) -> bool:
+	return possibleWeapon.unitOwner == null and currentWeapon == null
