@@ -102,3 +102,35 @@ static func set_active(node: CanvasItem, state : bool):
 	else :
 		node.process_mode = Node.PROCESS_MODE_DISABLED
 		node.hide()
+
+static func visualize_circle(tree : SceneTree, position: Vector2, radius: float, duration: float, lineColor: Color) -> void:
+	# Create a Line2D node to represent the circle
+	var circle_line = Line2D.new()
+	circle_line.default_color = lineColor
+	circle_line.width = 5
+	
+	# Add points to the Line2D to form the circle
+	var segments = 64  # Number of points to approximate the circle
+	for i in range(segments):
+		var angle = i * TAU / segments
+		var point = position + Vector2(cos(angle), sin(angle)) * radius
+		circle_line.add_point(point)
+	
+	# Close the circle by connecting the last point to the first
+	circle_line.add_point(position + Vector2(radius, 0))
+	
+	# Add the circle to the root node
+	var root = tree.root
+	root.add_child(circle_line)
+	
+	# Create a timer to remove the circle after the duration
+	var timer = Timer.new()
+	root.add_child(timer)
+	timer.wait_time = duration
+	timer.one_shot = true
+	timer.start()
+	
+	# Wait for the timer to timeout, then free the circle
+	await timer.timeout
+	circle_line.queue_free()
+	timer.queue_free()

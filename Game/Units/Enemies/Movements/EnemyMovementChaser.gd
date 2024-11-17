@@ -1,11 +1,8 @@
 ## Follow the player
 class_name Chaser extends EnemyMovement
 
-func GetMovement(selfEnemy : EnemyController, target : Node2D) -> Vector2:
-	if GameManager.Player == null:
-		return Vector2.ZERO
-	
-	var direction = target.global_position - selfEnemy.global_position
+func GetMovement(selfEnemy : EnemyController, target : Vector2) -> Vector2:
+	var direction = target - selfEnemy.global_position
 	
 	if direction.length() > selfEnemy.GetAttackDistance():
 		return direction
