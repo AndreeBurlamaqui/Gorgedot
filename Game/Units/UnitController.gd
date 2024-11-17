@@ -125,3 +125,11 @@ func on_weapon_pick(newWeapon : WeaponBase):
 
 func can_pickup_weapon(possibleWeapon : WeaponBase) -> bool:
 	return possibleWeapon.unitOwner == null and currentWeapon == null
+
+func on_buildup_attack(delay : float):
+	var attackTween = get_tree().create_tween()
+	var expanded = Vector2.ONE * 1.35
+	attackTween.tween_property(bodyNode, "scale", expanded, delay * 0.5).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_BOUNCE)
+	attackTween.tween_property(bodyNode, "scale", expanded, delay * 0.35).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_BACK)
+	attackTween.tween_property(bodyNode, "scale", Vector2.ONE * 0.55, delay * 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	attackTween.tween_property(bodyNode, "scale", Vector2.ONE, 0.1).set_ease(Tween.EASE_OUT)

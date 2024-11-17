@@ -5,7 +5,6 @@ class_name WeaponMelee
 @export var impulseForce := 1
 
 var isAttacking := false
-var attackCount := 0
 
 func _ready() -> void:
 	super._ready()
@@ -13,30 +12,14 @@ func _ready() -> void:
 
 func TryUse(user : UnitController):
 	# Check if can do the main action
-	if !cooldownTimer.is_stopped():
-		return
+	if !cooldownTimer.is_stopped() or !_buildupTimer.is_stopped():
+		return false
 	
 	if isAttacking || animator.is_playing():
-		return
+		return false
 	
-	isAttacking = true
-	user.canAim = false
-	user.canMove = false
-	PlayAnimation(comboAnimation[attackCount % comboAnimation.size()])
-	user.ApplyImpulse(TinyMath.rotation_to_direction(user.rotation), impulseForce)
-	
-	await animator.animation_finished
-	if user != null:
-		user.canMove = true
-		user.canAim = true
-	
-	isAttacking = false
-	
-	# Cooldown to attack again
-	cooldownTimer.start()
-	await cooldownTimer.timeout
-	
-	attackCount += 1
+	_on_use_weapon(user)
+	return true
 
 func TryThrow(user : UnitController):
 	while isAttacking: # Some sort of "queue" the input
@@ -45,6 +28,23 @@ func TryThrow(user : UnitController):
 	super.TryThrow(user)
 
 func Reset():
-	attackCount = 0
 	isAttacking = false
+
+func _on_use_weapon(user : UnitController) :
+	isAttacking = true
+	user.canAim = false
+	user.canMove = false
 	
+	await _await_buildup(user)
+	
+	PlayAnimation(comboAnimation[attackCount % comboAnimation.size()])
+	if user != null:
+		user.ApplyImpulse(TinyMath.rotation_to_direction(user.rotation), impulseForce)
+	
+	await animator.animation_finished
+	if user != null:
+		user.canMove = true
+		user.canAim = true
+	
+	isAttacking = false
+	attackCount += 1

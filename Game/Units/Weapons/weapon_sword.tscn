@@ -214,16 +214,14 @@ size = Vector2(60, 118.084)
 script = ExtResource("3_0ce4n")
 comboAnimation = Array[String](["sword_combo_1", "sword_combo_2"])
 impulseForce = 500
+_minAttackBuildup = 2
 
-[node name="Timer" parent="." index="0"]
-wait_time = 0.25
-
-[node name="AnimationPlayer" parent="." index="1"]
+[node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_ufgfy")
 }
 
-[node name="Weapon" parent="." index="3"]
+[node name="Weapon" parent="." index="4"]
 position = Vector2(-5, 46)
 rotation = 3.90161
 

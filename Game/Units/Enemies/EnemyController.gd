@@ -89,6 +89,7 @@ func _get_focus_target_position() -> Vector2 :
 func _set_focus_target(newTarget):
 	_focusTarget = newTarget
 	# Set the offset that it'll try to search to
+	# This will make the enemies to be a bit different from each other
 	var random_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 	var random_magnitude = randf_range(1, GetAttackDistance())
 	_targetOffset = random_direction * random_magnitude

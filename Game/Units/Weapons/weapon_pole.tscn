@@ -209,13 +209,13 @@ impulseForce = 700
 dropForce = 700.0
 dropSpeed = 1500
 
-[node name="AnimationPlayer" parent="." index="1"]
+[node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_yutkk"),
 "Base_Weapon_Library": SubResource("AnimationLibrary_wl02v")
 }
 
-[node name="Weapon" parent="." index="3"]
+[node name="Weapon" parent="." index="4"]
 position = Vector2(0, -25)
 rotation = 0.0
 

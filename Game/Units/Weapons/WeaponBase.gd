@@ -7,6 +7,7 @@ class_name WeaponBase extends Node2D
 @export var dropRaycast : RayCast2D
 @export var animator : AnimationPlayer
 @export var visual : Sprite2D
+@export var _buildupTimer : Timer
 
 @export_group("VALUES")
 @export var dropForce = 500.0;
@@ -14,6 +15,8 @@ class_name WeaponBase extends Node2D
 @export var attack_distance := 125.0
 @export var max_durability := 5.0
 var durability := 5.0
+var attackCount := 0
+@export var _minAttackBuildup := 3
 
 @export_group("ANIMATIONS")
 @export var onPickAnimation : String
@@ -42,6 +45,7 @@ func _ready():
 
 func Reset():
 	durability = max_durability
+	attackCount = 0
 
 func TryUse(user : UnitController):
 	pass
@@ -138,3 +142,20 @@ func Drop(user : UnitController, dropPos : Vector2, dropRot : float):
 	
 	PlayAnimation("RESET")
 	Reset()
+
+func _await_buildup(user : UnitController):
+	if user == null :
+		return
+	
+#	# Play the buildup if min attack buildup is above attack count
+#	if attackCount % _minAttackBuildup > 0 :
+#		# Cooldown to attack again
+#		cooldownTimer.start()
+#		return
+	
+	# Above combo count, requires new buildup
+	user.on_buildup_attack(_buildupTimer.wait_time)
+	_buildupTimer.start()
+	await _buildupTimer.timeout
+	cooldownTimer.start()
+
