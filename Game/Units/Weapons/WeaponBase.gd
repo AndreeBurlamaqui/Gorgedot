@@ -147,15 +147,14 @@ func _await_buildup(user : UnitController):
 	if user == null :
 		return
 	
-#	# Play the buildup if min attack buildup is above attack count
-#	if attackCount % _minAttackBuildup > 0 :
-#		# Cooldown to attack again
-#		cooldownTimer.start()
-#		return
+	# Play the buildup if min attack buildup is above attack count
+	if attackCount % _minAttackBuildup > 0 :
+		# Cooldown to attack again
+		cooldownTimer.start()
+		return
 	
 	# Above combo count, requires new buildup
 	user.on_buildup_attack(_buildupTimer.wait_time)
 	_buildupTimer.start()
 	await _buildupTimer.timeout
-	cooldownTimer.start()
 
